@@ -10,5 +10,7 @@ module.exports = {
     anger       :   {name: "ANGER"      ,   url: emojibase + "/anger.png"},
     disgust     :   {name: "DISGUST"    ,   url: emojibase + "/disgust.png"},
     fear        :   {name: "FEAR"       ,   url: emojibase + "/fear.png"},
-    joy         :   {name: "JOY"        ,   url: emojibase + "/joy.png"}
+    joy         :   {name: "JOY"        ,   url: emojibase + "/joy.png"},
+    cheeky      :   {name: "CHEEKEY"    ,   url: emojibase + "/cheeky.png"},
+    neutral     :   {name: "neutral"    ,   url: emojibase + "/neutral.png"}
 };
