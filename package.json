@@ -1,5 +1,5 @@
 {
-  "name": "emojis-as-a-service",
+  "name": "emojis",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/BenEmdon/emojis-as-a-service#readme",
   "engines": {
     "node": "7.1.0"
+  },
+  "dependencies": {
+    "express": "^4.15.2"
   }
 }
