@@ -1,16 +1,19 @@
+
 const emotions  = require('../config/emotions');
-const gm        = require('gm');
+const gm = require('gm').subClass({imageMagick: true});
 const async     = require('async');
 const _         = require('underscore');
 
+
+
 function getAllEmojis(data, callback) {
-  const people = data["frames"][0]["people"];
-  async.each(people, function(person, callback) {
+  const people = data["people"];
+  async.each(people, function(person, cb) {
     let emotion = getEmotion(person["emotions"]);
 
-    //console.log(emotion + " GOTTEN")
-    person.emojiImage = scaleImage(emotions[emotion].url, person["face"]["height"], person["face"]["width"], callback);
-  });
+    scaleImage(emotions[emotion].url, person, cb);
+  }, callback);
+
 }
 
 function getEmotion(emotions) {
@@ -52,90 +55,69 @@ function isCheeky() {
 
 }
 
-function scaleImage(image, height, width, callback) {
+function scaleImage(image, person, callback) {
+  let buffer;
   gm(image)
-    .resize(height, width)
-    .write('./test.png', callback);
+    .resize(person["face"]["height"], person["face"]["width"])
+    .toBuffer('PNG', function(err, buffer) {
+      if (err) return callback(err);
+      person.emojiBuffer = buffer;
+      callback();
+    });
 }
 
 const test_data = {
-  "frames": [
+  "people": [
     {
-      "people": [
-        {
-          "appearance": {
-            "glasses": "No"
-          },
-          "demographics": {
-            "age_group": "Young Adult",
-            "gender": "Male"
-          },
-          "distance": 109.005,
-          "emotions": {
-            "anger": 4,
-            "disgust": 0.068,
-            "fear": 2,
-            "joy": 1.006,
-            "sadness": 60,
-            "surprise": 2
-          },
-          "end_time": "2016-Aug-31 17:47:35.285368",
-          "face": {
-            "height": 248,
-            "width": 248,
-            "x": 298,
-            "y": 126
-          },
-          "landmarks": [
-            {
-              "leftEyeBrowOuterLeft": {
-                "x": 356,
-                "y": 171
-              }
-            },
-            {
-              "leftEyeBrowInnerLeft": {
-                "x": 373,
-                "y": 167
-              }
-            },
-            {
-              "lowerLipTopInnerLeft": {
-                "x": 400,
-                "y": 324
-              }
-            }
-          ],
-          "person_id": "0",
-          "pose": {
-            "pitch": 0.900874,
-            "roll": -2.14441,
-            "yaw": -11.3128
-          },
-          "start_time": "2016-Aug-31 17:47:35.280681",
-          "tracking": {
-            "attention": 100,
-            "blink": "Yes",
-            "dwell": 0.004,
-            "glances": 1
-          }
-        }
-      ],
-      "time": 83
+      "emotions": {
+        "anger": 4,
+        "disgust": 0.068,
+        "fear": 2,
+        "joy": 1.006,
+        "sadness": 0,
+        "surprise": 2
+      },
+      "face": {
+        "height": 248,
+        "width": 248,
+        "x": 298,
+        "y": 126
+      },
+      "pose": {
+        "pitch": 0.900874,
+        "roll": -2.14441,
+        "yaw": -11.3128
+      },
+    },
+    {
+      "emotions": {
+        "anger": 4,
+        "disgust": 0.068,
+        "fear": 2,
+        "joy": 1.006,
+        "sadness": 0,
+        "surprise": 2
+      },
+      "face": {
+        "height": 500,
+        "width": 500,
+        "x": 298,
+        "y": 126
+      },
+      "pose": {
+        "pitch": 0.900874,
+        "roll": -2.14441,
+        "yaw": -11.3128
+      },
+
     }
   ],
-  "id": "e873eebce0d77bd6fed3b1b9",
-  "length": 12,
-  "media_info": {
-    "file": "e873eebce0d77bd6fed3b1b9.flv",
-    "length": 12,
-    "mime_type": "video/flv",
-    "type": "video"
-  },
-  "status_code": 4,
-  "status_message": "Complete"
-};
-getAllEmojis(test_data);
+  "time": 83
+}
+
+getAllEmojis(test_data, function() {
+  console.log(test_data);
+});
 
 module.exports = {
   getAllEmojis
