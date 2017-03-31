@@ -1,3 +1,5 @@
+		// Convert the emoji_buff to a photo file to the destination
+		fs.writeFile(destination + "emoji.png", buffer, "binary", function() {});
 var path        = require("path");
 var EMOJI_BASE   = path.resolve("./emojis");
 
