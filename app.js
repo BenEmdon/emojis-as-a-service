@@ -3,6 +3,10 @@ const express = require('express');
 const app = express();
 const api = require('./ApiRequest.js');
 const path = require('path');
+const multer  = require('multer');
+const upload = multer({dest: __dirname + '/public_html/images/'});
+
+const imageURL = 'https://emojis-as-a-service.herokuapp.com/public_html/images/'
 
 dotenv.config({ silent: true });
 
@@ -13,9 +17,21 @@ app.use(function(req,res,next){
 	next();
 });
 
-app.post("/upload", function(req, res) {
+app.post("/upload", upload.single('pic'), function(req, res) {
 	console.log(req.file);
+<<<<<<< HEAD
     res.send('Image back with emoji')
+=======
+	api(imageURL + req.file.filename)
+	.then((imageData) => {
+		console.log(imageData);
+		res.send(imageData);
+	})
+	.catch((error) => {
+		console.log(error);
+		res.send(error);
+	});
+>>>>>>> image upload bro
 });
 
 app.use(express.static(ROOT));  //handle all static requests
