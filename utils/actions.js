@@ -11,6 +11,7 @@ function getAllEmojis(data, callback) {
   async.each(people, function(person, cb) {
     let emotion = getEmotion(person["emotions"]);
 
+    console.log(emotion)
     scaleImage(emotions[emotion].url, person, cb);
   }, callback);
 
