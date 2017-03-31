@@ -3,12 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Emojis as a Service</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <form method="post" enctype="multipart/form-data" action="/upload">
-      <input type="file" name="pic" accept="image/*">
-      <input type="submit">
-    </form>
+    <h1> Emojis as a Service </h1>
+
+    <div class="inputImage">
+      <form method="post" enctype="multipart/form-data" action="/upload">
+        <input type="file" name="pic" accept="image/*">
+        <input type="submit">
+      </form>
+    </div>
   </body>
 </html>
