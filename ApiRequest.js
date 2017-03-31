@@ -7,10 +7,8 @@ const request = (imagePath) => {
     method: 'POST',
     uri: `http://api.kairos.com/?source=${imagePath}`,
     headers: {
-      // app_id: process.env.API_ID,
-      // app_key: process.env.API_KEY,
-      app_id: '988ec441',
-      app_key: '44ab978299df147fa20fa156cdfe6685',
+      app_id: process.env.API_ID,
+      app_key: process.env.API_KEY,
       }
     };
     console.log(options);
