@@ -1,0 +1,22 @@
+{
+  "name": "emojis-as-a-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenEmdon/emojis-as-a-service.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BenEmdon/emojis-as-a-service/issues"
+  },
+  "homepage": "https://github.com/BenEmdon/emojis-as-a-service#readme",
+  "engines": {
+    "node": "7.1.0"
+  }
+}
