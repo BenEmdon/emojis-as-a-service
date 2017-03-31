@@ -43,13 +43,49 @@ function analyseEmotions(emotions){
   }else{
     const largest =  Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
 
-
+    if(cheeky(emotions)){
+      return "cheeky";
+    }else if (contempt(emotions)){
+      return "contempt";
+    }else if (disappointment(emotions)) {
+      return "disappointment";
+    }else if (remorse(emotions)) {
+      return "remorse";
+    }else if (pride(emotions)) {
+      return "pride";
+    }else{
+      return largest;
+    }
 
   }
 }
 
-function isCheeky(emotions) {
+function validEmotion (emotion1, emotion2) {
+  if(emotion1 && emotion2){
+    return true;
+  }else{
+    return false;
+  }
+}
 
+function cheeky(emotions) {
+  return validEmotion(emotions["joy"], emotions["surprise"])
+}
+
+function contempt(emotions) {
+  return validEmotion(emotions["disgust"], emotions["anger"]);
+}
+
+function disappointment(emotions) {
+  return validEmotion(emotions["surprise"], emotions["sadness"])
+}
+
+function remorse(emotions) {
+  return validEmotion(emotions["sadness", emotions["disgust"]])
+}
+
+function pride(emotions) {
+  return validEmotion(emotions["anger"], emotions["joy"])
 }
 
 function scaleImage(image, person, callback) {
