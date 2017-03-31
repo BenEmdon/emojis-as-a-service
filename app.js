@@ -1,10 +1,10 @@
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
 const api = require('./ApiRequest.js');
-var path = require('path');
+const path = require('path');
 
-// dotenv.config({ silent: true });
+dotenv.config({ silent: true });
 
 const ROOT = "./public_html";
 
@@ -24,5 +24,7 @@ app.all("*",function(req, res) {
 	res.sendStatus(404);
 });
 
-
-app.listen(2017,function(){console.log("Express server listening on port 2017");});
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+	console.log(`Express server listening on port ${port}`);
+});
