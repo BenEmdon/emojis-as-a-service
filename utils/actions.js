@@ -1,7 +1,8 @@
-const emotions  = require('../config/emotions');
-const gm        = require('gm');
-const async     = require('async');
 const _         = require('underscore');
+const emotions = require('../config/emotions');
+const gm = require('gm').subClass({imageMagick: true});
+const async = require('async');
+const fs = require('fs');
 
 function getAllEmojis(data, callback) {
   const people = data["people"];
@@ -52,9 +53,8 @@ function isCheeky(emotions) {
 }
 
 function scaleImage(image, person, callback) {
-  let buffer;
   gm(image)
-    .resize(person["face"]["height"], person["face"]["width"])
+    .resize(person["face"]["width"], person["face"]["height"], "!") // ! used to prevent maintaining of aspect ratio
     .toBuffer('PNG', function(err, buffer) {
       if (err) return callback(err);
       person.emojiBuffer = buffer;
@@ -85,7 +85,7 @@ const test_data = {
         "yaw": -11.3128
       },
     },
-{
+    {
       "emotions": {
         "anger": 4,
         "disgust": 0.068,
