@@ -23,3 +23,6 @@ app.use(express.static(ROOT));  //handle all static requests
 app.all("*",function(req, res) {
 	res.sendStatus(404);
 });
+
+
+app.listen(2017,function(){console.log("Express server listening on port 2017");});
