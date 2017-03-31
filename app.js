@@ -5,7 +5,9 @@ const api = require('./ApiRequest.js');
 const path = require('path');
 // const multer  = require('multer');
 // const upload = multer({dest: __dirname + '/public_html/images/'});
+console.log("const multer = require('multer')"); 
 const multer = require('multer')
+console.log("const storage = multer.diskStorage"); 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, __dirname + '/public_html/images/')
@@ -14,6 +16,7 @@ const storage = multer.diskStorage({
     cb(null, file.originalname)
   }
 })
+console.log("const upload = multer({storage: storage})"); 
 const upload = multer({storage: storage})
 
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
