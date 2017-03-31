@@ -3,7 +3,7 @@ const emotions  = require('../config/emotions');
 const gm = require('gm').subClass({imageMagick: true});
 const async     = require('async');
 const _         = require('underscore');
-
+const fs = require('fs');
 
 
 function getAllEmojis(data, callback) {
@@ -93,9 +93,8 @@ function pride(emotions) {
 }
 
 function scaleImage(image, person, callback) {
-  let buffer;
   gm(image)
-    .resize(person["face"]["height"], person["face"]["width"])
+    .resize(person["face"]["width"], person["face"]["height"], "!") // ! used to prevent maintaining of aspect ratio
     .toBuffer('PNG', function(err, buffer) {
       if (err) return callback(err);
       person.emojiBuffer = buffer;
