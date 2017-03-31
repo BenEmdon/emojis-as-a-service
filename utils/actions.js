@@ -1,6 +1,7 @@
-const emotions = require('../config/emotions');
-const gm = require('gm').subClass({imageMagick: true});
-const async = require('async');
+const emotions  = require('../config/emotions');
+const gm        = require('gm');
+const async     = require('async');
+const _         = require('underscore');
 
 function getAllEmojis(data, callback) {
   const people = data["people"];
@@ -11,7 +12,42 @@ function getAllEmojis(data, callback) {
 }
 
 function getEmotion(emotions) {
-  return Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
+  return mapObject(emotions);
+}
+
+function mapObject(emotions){
+  const valid_emotions = {};
+
+  for( emotion in emotions){
+
+     if(emotions[emotion] > 50){
+       valid_emotions[emotion] = emotions[emotion];
+     }
+  }
+
+  return analyseEmotions(valid_emotions);
+}
+
+function analyseEmotions(emotions){
+
+  if(_.size(emotions) == 0){
+
+    return "neutral";
+  }else if (_.size(emotions) == 1) {
+
+    for( emotion in emotions){
+      return emotion;
+    }
+
+  }else{
+    const largest =  Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
+
+
+  }
+}
+
+function isCheeky() {
+
 }
 
 function scaleImage(image, person, callback) {
