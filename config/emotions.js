@@ -7,5 +7,7 @@ module.exports = {
     anger       :   {name: "ANGER"      ,   url: EMOJI_BASE + "/anger.png"},
     disgust     :   {name: "DISGUST"    ,   url: EMOJI_BASE + "/disgust.png"},
     fear        :   {name: "FEAR"       ,   url: EMOJI_BASE + "/fear.png"},
-    joy         :   {name: "JOY"        ,   url: EMOJI_BASE + "/joy.png"}
+    joy         :   {name: "JOY"        ,   url: EMOJI_BASE + "/joy.png"},
+    cheeky      :   {name: "CHEEKEY"    ,   url: EMOJI_BASE + "/cheeky.png"},
+    neutral     :   {name: "neutral"    ,   url: EMOJI_BASE + "/neutral.png"}
 };
