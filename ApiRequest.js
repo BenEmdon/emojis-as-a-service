@@ -12,12 +12,14 @@ const request = (imagePath) => {
       app_key: process.env.API_KEY,
       }
     };
-    console.log(`Options: ${options}`);
+    console.log(`Options: ${JSON.stringify(options, ' ', null)}`);
     rp(options)
     .then((response) => {
+      console.log(response);
       resolve(response.frames[0].people)
     })
     .catch((error) => {
+      console.log(error);
       reject(error);
     });
   });
