@@ -3,6 +3,7 @@ const rp = require('request-promise');
 
 const request = (imagePath) => {
   return new Promise((resolve, reject) => {
+    console.log(`image path was passed at: ${imagePath}`);
     const options = {
     method: 'POST',
     uri: `http://api.kairos.com/?source=${imagePath}`,
@@ -11,7 +12,7 @@ const request = (imagePath) => {
       app_key: process.env.API_KEY,
       }
     };
-    console.log(options);
+    console.log(`Options: ${options}`);
     rp(options)
     .then((response) => {
       resolve(response.frames[0].people)
