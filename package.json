@@ -18,5 +18,8 @@
   "homepage": "https://github.com/BenEmdon/emojis-as-a-service#readme",
   "engines": {
     "node": "7.1.0"
+  },
+  "dependencies": {
+    "express": "^4.15.2"
   }
 }
