@@ -4,10 +4,10 @@
 var emojibase = "../emojis";
 
 module.exports = {
-    surprise    :   {name: "SURPRISE"   ,   url: require(emojibase + "/surprise.png")},
-    sadness     :   {name: "SADNESS"    ,   url: require(emojibase + "/sadness.png")},
-    anger       :   {name: "ANGER"      ,   url: require(emojibase + "/anger.png")},
-    disgust     :   {name: "DISGUST"    ,   url: require(emojibase + "/disgust.png")},
-    fear        :   {name: "FEAR"       ,   url: require(emojibase + "/fear.png")},
-    joy         :   {name: "JOY"        ,   url: require(emojibase + "/joy.png")}
+    surprise    :   {name: "SURPRISE"   ,   url: emojibase + "/surprise.png"},
+    sadness     :   {name: "SADNESS"    ,   url: emojibase + "/sadness.png"},
+    anger       :   {name: "ANGER"      ,   url: emojibase + "/anger.png"},
+    disgust     :   {name: "DISGUST"    ,   url: emojibase + "/disgust.png"},
+    fear        :   {name: "FEAR"       ,   url: emojibase + "/fear.png"},
+    joy         :   {name: "JOY"        ,   url: emojibase + "/joy.png"}
 };
