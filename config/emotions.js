@@ -1,8 +1,5 @@
-/**
- * Created by orajiakuchukwudalu on 17-03-31.
- */
 var path        = require("path");
-var emojibase   = path.resolve() + "/emojis";
+var EMOJI_BASE   = path.resolve("./emojis");
 
 module.exports = {
     surprise    :   {name: "SURPRISE"   ,   url: emojibase + "/surprise.png"},
