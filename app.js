@@ -9,23 +9,9 @@ app.use(function(req,res,next){
 	next();
 });
 
-app.post("/upload", (req, res) => {
-	
-	console.log("Image request");
-});
-
-app.get('/', (req, res) => {
-
-	var options = {
-	    root: __dirname + '/public_html/',
-	    dotfiles: 'deny',
-	    headers: {
-	        'x-timestamp': Date.now(),
-	        'x-sent': true
-	    }
-	  };
-	//res.send({'nice': 'meme'});
-	res.sendFile("index.html", options);
+app.post("/upload", function(req, res) {
+	console.log(req.file);
+    res.send('Image back with emoji')
 });
 
 app.use(express.static(ROOT));  //handle all static requests
