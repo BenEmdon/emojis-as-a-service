@@ -43,10 +43,11 @@ function analyseEmotions(emotions){
     const largest =  Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
 
 
+
   }
 }
 
-function isCheeky() {
+function isCheeky(emotions) {
 
 }
 
