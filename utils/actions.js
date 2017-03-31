@@ -1,17 +1,55 @@
-const emotions = require('../config/emotions');
-const gm = require('gm');
-const async = require('async');
+const emotions  = require('../config/emotions');
+const gm        = require('gm');
+const async     = require('async');
+const _         = require('underscore');
 
 function getAllEmojis(data, callback) {
   const people = data["frames"][0]["people"];
   async.each(people, function(person, callback) {
     let emotion = getEmotion(person["emotions"]);
+
+    //console.log(emotion + " GOTTEN")
     person.emojiImage = scaleImage(emotions[emotion].url, person["face"]["height"], person["face"]["width"], callback);
   });
 }
 
 function getEmotion(emotions) {
-  return Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
+  return mapObject(emotions);
+}
+
+function mapObject(emotions){
+  const valid_emotions = {};
+
+  for( emotion in emotions){
+
+     if(emotions[emotion] > 50){
+       valid_emotions[emotion] = emotions[emotion];
+     }
+  }
+
+  return analyseEmotions(valid_emotions);
+}
+
+function analyseEmotions(emotions){
+
+  if(_.size(emotions) == 0){
+
+    return "neutral";
+  }else if (_.size(emotions) == 1) {
+
+    for( emotion in emotions){
+      return emotion;
+    }
+
+  }else{
+    const largest =  Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
+
+
+  }
+}
+
+function isCheeky() {
+
 }
 
 function scaleImage(image, height, width, callback) {
@@ -38,7 +76,7 @@ const test_data = {
             "disgust": 0.068,
             "fear": 2,
             "joy": 1.006,
-            "sadness": 0,
+            "sadness": 60,
             "surprise": 2
           },
           "end_time": "2016-Aug-31 17:47:35.285368",
