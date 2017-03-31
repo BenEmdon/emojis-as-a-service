@@ -6,7 +6,7 @@ const path = require('path');
 const multer  = require('multer');
 const upload = multer({dest: __dirname + '/public_html/images/'});
 
-const imageURL = 'https://emojis-as-a-service.herokuapp.com/public_html/images/'
+const imageURL = 'https://emojis-as-a-service.herokuapp.com/app/public_html/images/'
 
 dotenv.config({ silent: true });
 
