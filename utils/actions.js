@@ -1,20 +1,23 @@
 const emotions = require('../config/emotions');
+const gm = require('gm');
+const async = require('async');
 
-function getAllEmojis(data) {
+function getAllEmojis(data, callback) {
   const people = data["frames"][0]["people"];
-  for (let person of people) {
+  async.each(people, function(person, callback) {
     let emotion = getEmotion(person["emotions"]);
-    person.emojiImage = scaleImage(emotions[emotion].url, person["face"]["height"], person["face"]["width"]);
-    console.log(emotions[emotion].url);
-  }
+    person.emojiImage = scaleImage(emotions[emotion].url, person["face"]["height"], person["face"]["width"], callback);
+  });
 }
 
 function getEmotion(emotions) {
   return Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
 }
 
-function scaleImage(image, height, width) {
-
+function scaleImage(image, height, width, callback) {
+  gm(image)
+    .resize(height, width)
+    .write('./test.png', callback);
 }
 
 const test_data = {
@@ -61,7 +64,7 @@ const test_data = {
             {
               "lowerLipTopInnerLeft": {
                 "x": 400,
-                  "y": 324
+                "y": 324
               }
             }
           ],
