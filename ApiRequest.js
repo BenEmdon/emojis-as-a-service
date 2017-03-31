@@ -6,7 +6,7 @@ const request = (imagePath) => {
     console.log(`image path was passed at: ${imagePath}`);
     const options = {
     method: 'POST',
-    uri: `http://api.kairos.com/?source=${imagePath}`,
+    uri: `http://api.kairos.com/v2/media?source=${imagePath}`,
     headers: {
       app_id: process.env.API_ID,
       app_key: process.env.API_KEY,
