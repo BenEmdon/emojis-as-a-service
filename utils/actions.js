@@ -133,6 +133,27 @@ const test_data = {
         "surprise": 2
       },
       "face": {
+        "height": 248,
+        "width": 248,
+        "x": 298,
+        "y": 126
+      },
+      "pose": {
+        "pitch": 0.900874,
+        "roll": -2.14441,
+        "yaw": -11.3128
+      },
+    },
+{
+      "emotions": {
+        "anger": 4,
+        "disgust": 0.068,
+        "fear": 2,
+        "joy": 1.006,
+        "sadness": 0,
+        "surprise": 2
+      },
+      "face": {
         "height": 500,
         "width": 500,
         "x": 298,
