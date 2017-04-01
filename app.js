@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.json());
 
-function processAPIData(res, data, file) {
+function processAPIData(res, data, filepath) {
     if (!data.status_code) {
         console.log(data);
         res.send(data);
@@ -56,7 +56,7 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
             api.post(imageURL + file.name).then((data) => {
-              processAPIData(res, data, file.name);
+              processAPIData(res, data, file.path);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
@@ -81,7 +81,7 @@ app.post('/slack', function (req, res) {
         /*actions.getAllEmojis(imageData.frames[0], () => {
         res.sendFilexfile.path);
       })*/
-        processAPIData(res, data);
+        processAPIData(res, data, req.body.image_url);
         res.json({
             url: 'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg'
         });
