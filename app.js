@@ -58,6 +58,15 @@ app.post('/upload', function(req, res){
   // rename it to it's orignal name
   form.on('file', function(field, file) {
     fs.rename(file.path, path.join(form.uploadDir, file.name));
+		api(imageURL + file.name)
+		.then((imageData) => {
+			console.log(imageData);
+			res.send(imageData);
+		})
+		.catch((error) => {
+			console.log(error);
+			res.send(error);
+		});
   });
 
   // log any errors that occur
@@ -73,6 +82,8 @@ app.post('/upload', function(req, res){
   // parse the incoming request containing the form data
   form.parse(req);
 });
+
+app.use('/images', express.static('./uploads'));
 
 app.use(express.static(ROOT));  //handle all static requests
 
