@@ -15,21 +15,21 @@ var fs = require('fs');
 const ROOT = "./public_html";
 
 app.use(function(req,res,next){
-	console.log(req.method + " request for " + req.url);
-	next();
+  console.log(req.method + " request for " + req.url);
+  next();
 });
 
 // app.post("/upload", upload.single('pic'), function(req, res) {
-// 	console.log(req.file);
-// 	api(imageURL + req.file.filename)
-// 	.then((imageData) => {
-// 		console.log(imageData);
-// 		res.send(imageData);
-// 	})
-// 	.catch((error) => {
-// 		console.log(error);
-// 		res.send(error);
-// 	});
+//  console.log(req.file);
+//  api(imageURL + req.file.filename)
+//  .then((imageData) => {
+//    console.log(imageData);
+//    res.send(imageData);
+//  })
+//  .catch((error) => {
+//    console.log(error);
+//    res.send(error);
+//  });
 // });
 
 app.post('/upload', function(req, res){
@@ -46,18 +46,22 @@ app.post('/upload', function(req, res){
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
   form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
-		api(imageURL + file.name)
-		.then((imageData) => {
-			console.log(imageData);
-      actions.getAllEmojis(imageData.frames[0], () => {
-        res.send(imageData);
-      })
-		})
-		.catch((error) => {
-			console.log(error);
-			res.send(error);
-		});
+    fs.rename(file.path, file.path + path.extname(file.name), function(err) {
+      if (err) return res.send(err);
+      file.path = file.path + path.extname(file.name);
+      file.name = path.basename(file.path);
+      res.send(imageURL + file.name);
+      api(imageURL + file.name)
+        .then((imageData) => {
+          /*actions.getAllEmojis(imageData.frames[0], () => {
+        res.sendFile(file.path);
+      })*/
+        })
+        .catch((error) => {
+          console.log(error);
+          res.send(error);
+        });
+    });
   });
 
   // log any errors that occur
@@ -79,10 +83,10 @@ app.use('/images', express.static('./uploads'));
 app.use(express.static(ROOT));  //handle all static requests
 
 app.all("*",function(req, res) {
-	res.sendStatus(404);
+  res.sendStatus(404);
 });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-	console.log(`Express server listening on port ${port}`);
+  console.log(`Express server listening on port ${port}`);
 })
