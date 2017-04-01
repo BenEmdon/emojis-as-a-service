@@ -48,7 +48,7 @@ app.post('/upload', function (req, res) {
             api(imageURL + file.name).then((imageData) => {
                 console.log(imageData);
                 actions.getAllEmojis(imageData.frames[0], () => {
-                    console.log('Got all emojis');
+                    console.log(`EMOJI: ${imageData.frames[0]}`);
                 })
             }).catch((error) => {
                 console.log(error);
