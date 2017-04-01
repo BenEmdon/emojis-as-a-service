@@ -86,7 +86,7 @@ app.post('/slack', function (req, res) {
  var name = './uploads/' + Date.now() + path.extname(req.body.image_url); 
     requester(req.body.image_url, {encoding: 'binary'}, function(error, response, body) {
         fs.writeFile(name, body, 'binary', function (err) {});
-        api.post(name).then((data) => {
+        api.post(imageURL+ name).then((data) => {
             console.log(name);
                 processAPIData(res, data, name);
             }).catch((error) => {
