@@ -7,8 +7,7 @@ const fs = require('fs');
 function getAllEmojis(data, callback) {
   const people = data["people"];
   async.each(people, function(person, cb) {
-    let emotion = getEmotion(person["emotions"]);
-    
+    let emotion = person.hasOwnProperty("emotions") ? getEmotion(person["emotions"]) : "joy";
     console.log(emotion)
     scaleImage(emotions[emotion].url, person, cb);
   }, callback);
@@ -23,7 +22,7 @@ function mapObject(emotions){
 
   for( emotion in emotions){
 
-     if(emotions[emotion] > 50){
+     if(emotions[emotion] >= 50){
        valid_emotions[emotion] = emotions[emotion];
      }
   }
@@ -33,15 +32,10 @@ function mapObject(emotions){
 
 function analyseEmotions(emotions){
 
-  if(_.size(emotions) == 0){
-
+  if(emotions.length === 0){
     return "neutral";
-  }else if (_.size(emotions) == 1) {
-
-    for( emotion in emotions){
-      return emotion;
-    }
-
+  }else if (emotions.length === 1) {
+    return emotions[0];
   }else{
     const largest =  Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
 
@@ -63,11 +57,7 @@ function analyseEmotions(emotions){
 }
 
 function validEmotion (emotion1, emotion2) {
-  if(emotion1 && emotion2){
-    return true;
-  }else{
-    return false;
-  }
+  return emotion1 && emotion2;
 }
 
 function cheeky(emotions) {
@@ -87,7 +77,7 @@ function remorse(emotions) {
 }
 
 function pride(emotions) {
-  return validEmotion(emotions["anger"], emotions["joy"])
+  return validEmotion(emotions["surprise"], emotions["joy"])
 }
 
 function scaleImage(image, person, callback) {
