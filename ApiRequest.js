@@ -1,7 +1,7 @@
 const express = require('express');
 const rp = require('request-promise');
 
-const request = (imagePath) => {
+const post = (imagePath) => {
   return new Promise((resolve, reject) => {
     console.log(`image path was passed at: ${imagePath}`);
     const options = {
@@ -25,7 +25,7 @@ const request = (imagePath) => {
   });
 };
 
-const makeSecondRequest = (id) => {
+const get = (id) => {
   return new Promise((resolve, reject) => {
     const options = {
     method: 'GET',
@@ -36,8 +36,16 @@ const makeSecondRequest = (id) => {
       }
     };
     rp(options)
-    .then(())
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
   });
 }
 
-module.exports = request;
+module.exports = {
+  post,
+  get
+};
