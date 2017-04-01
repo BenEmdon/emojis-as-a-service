@@ -15,11 +15,10 @@ const post = (imagePath) => {
     console.log(`Options: ${JSON.stringify(options, ' ', null)}`);
     rp(options)
     .then((response) => {
-      console.log(`response`);
       resolve(response)
     })
     .catch((error) => {
-      console.log(`error`);
+      console.log(`error = ${error}`);
       reject(error);
     });
   });
