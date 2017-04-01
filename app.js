@@ -37,6 +37,7 @@ function processAPIData(res, data, filename) {
       setTimeout(() => {
         api.get(data.id)
         .then((newData) => {
+            console.log('40 = ' + newData);
           processAPIData(res, newData, filename)
         })
         .catch((error) => {
@@ -45,7 +46,7 @@ function processAPIData(res, data, filename) {
         });
       }, 500);
     } else {
-        console.log(data);
+        console.log('49=' + data);
         // this is purely a safety net
     }
 }
@@ -66,7 +67,8 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             
             api.post(imageURL + file.name).then((data) => {
-              processAPIData(res, data, file.name);
+                console.log('70 =' + data)
+                processAPIData(res, data, file.name);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
