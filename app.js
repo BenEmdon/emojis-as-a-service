@@ -17,19 +17,28 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded());
-// app.post("/upload", upload.single('pic'), function(req, res) {
-//  console.log(req.file);
-//  api(imageURL + req.file.filename)
-//  .then((imageData) => {
-//    console.log(imageData);
-//    res.send(imageData);
-//  })
-//  .catch((error) => {
-//    console.log(error);
-//    res.send(error);
-//  });
-// });
+
+function process(res, data) {
+    if (!data.status_code) {
+        console.log(data);
+        res.send(data);
+    }
+    if (data.status_code === 4 && data.frames) {
+        actions.getAllEmojis(data.frames[0], () => {
+            console.log(`EMOJI: ${data.frames[0]}`);
+        })
+    } else if (data.status_code === 2) {
+      setTimeout(() => {
+        api.get(data.id, (newData) => {
+          process(res, newData)
+        });
+      }, 500);
+    } else {
+        console.log(data);
+        // this is purely a safety net
+    }
+}
+
 app.post('/upload', function (req, res) {
     // create an incoming form object
     var form = new formidable.IncomingForm();
@@ -45,17 +54,15 @@ app.post('/upload', function (req, res) {
             file.path = file.path + path.extname(file.name);
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
-            api(imageURL + file.name).then((imageData) => {
-                console.log(imageData);
-                actions.getAllEmojis(imageData.frames[0], () => {
-                    console.log(`EMOJI: ${imageData.frames[0]}`);
-                })
+            api.post(imageURL + file.name).then((data) => {
+              process(res, data);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
             });
         });
     });
+
     // log any errors that occur
     form.on('error', function (err) {
         console.log('An error has occured: \n' + err);

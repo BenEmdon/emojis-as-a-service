@@ -1,7 +1,7 @@
 const express = require('express');
 const rp = require('request-promise');
 
-const request = (imagePath) => {
+const post = (imagePath) => {
   return new Promise((resolve, reject) => {
     console.log(`image path was passed at: ${imagePath}`);
     const options = {
@@ -25,4 +25,27 @@ const request = (imagePath) => {
   });
 };
 
-module.exports = request;
+const get = (id) => {
+  return new Promise((resolve, reject) => {
+    const options = {
+    method: 'GET',
+    uri: `http://api.kairos.com/v2/media/${id}`,
+    headers: {
+      app_id: process.env.API_ID,
+      app_key: process.env.API_KEY,
+      }
+    };
+    rp(options)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+  });
+}
+
+module.exports = {
+  post,
+  get
+};
