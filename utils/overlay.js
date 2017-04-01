@@ -354,115 +354,116 @@ var data = {
 // Create a fake buffer and put them into the fake data
 // var fake_buffer_work_dir = __dirname.substr(0, __dirname.lastIndexOf("/"));
 // gm(fake_buffer_work_dir + '/test.png')
-// 	.toBuffer('PNG' ,function (err, buffer) {
-// 		if (err) return console.log("Error to make a fake buffer");
-// 		var arr = data.frames[0].people;
-// 		arr.forEach(function(face_data) {
-// 			face_data.buffer = buffer;
-// 		});
+//  .toBuffer('PNG' ,function (err, buffer) {
+//      if (err) return console.log("Error to make a fake buffer");
+//      var arr = data.frames[0].people;
+//         console.log(arr.length);
+//      arr.forEach(function(face_data) {
+//          face_data.emojiBuffer = buffer;
+//      });
 
-// 		overlay(data, 'nick.jpg');
-// 	})
+//      overlay(data, 'nick.jpg', function() {});
+//  })
 
 function overlay(analysis_result, orig_photo_name, callback)
 {
-	var arr = analysis_result.frames[0].people;
+    var arr = analysis_result.frames[0].people;
     var work_dir = __dirname.substr(0, __dirname.lastIndexOf("/"));
-	var emoji_dir  = work_dir + '/uploads/emoji_dir';
-	var input_dir  = work_dir + '/uploads';
-	var output_dir = work_dir + '/uploads/output_photo';
+    var emoji_dir  = work_dir + '/uploads/emoji_dir';
+    var input_dir  = work_dir + '/uploads';
+    var output_dir = work_dir + '/uploads/output_photo';
 
-	function delete_middlewares(index, photo_name)
-	{
+    function delete_middlewares(index, photo_name)
+    {
         callback();
-		for (index -= 1; index >= 0; index--) {
-			// Delete middlewares in output_photo directory
-			if (index > 0) {
-				fs.unlinkSync(output_dir + '/' + index + '_' + photo_name, function(err) {
-					if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
-				});
-			}
-			fs.unlinkSync(emoji_dir + '/' + index + '_' + photo_name, function(err) {
-				if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
-			});
-		}
-	};
+        for (index -= 1; index >= 0; index--) {
+            // Delete middlewares in output_photo directory
+            if (index > 0) {
+                fs.unlinkSync(output_dir + '/' + index + '_' + photo_name, function(err) {
+                    if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
+                });
+            }
+            fs.unlinkSync(emoji_dir + '/' + index + '_' + photo_name, function(err) {
+                if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
+            });
+        }
+    };
 
-	function calculate_slope(left_eye, right_eye) {
-		return (Math.atan((right_eye.y - left_eye.y) / (right_eye.x - left_eye.x)) * 180 / Math.PI);
-	};
+    function calculate_slope(left_eye, right_eye) {
+        return (Math.atan((right_eye.y - left_eye.y) / (right_eye.x - left_eye.x)) * 180 / Math.PI);
+    };
 
-	function insert_emoji(index, photo_name)
-	{
-		var geom = "+" + arr[index].face.x + "+" + arr[index].face.y;
-		var photo_dir = ((index == 0) ? input_dir + '/' : output_dir + '/' + index + '_');
-		var photo_path  = photo_dir + photo_name;
-		var output_path = output_dir;
-		var indexed_photo_name = index + '_' + photo_name;
+    function insert_emoji(index, photo_name)
+    {
+        var geom = "+" + arr[index].face.x + "+" + arr[index].face.y;
+        var photo_dir = ((index == 0) ? input_dir + '/' : output_dir + '/' + index + '_');
+        var photo_path  = photo_dir + photo_name;
+        var output_path = output_dir;
+        var indexed_photo_name = index + '_' + photo_name;
 
-		// Index is now for the next index
-		index += 1;
+        // Index is now for the next index
+        index += 1;
 
         // Setting the output_path (For the last index, export the final photo to /uploads)
-		if (index === arr.length) {
+        if (index === arr.length) {
             output_path = input_dir + '/' + photo_name;
-		} else {
-			output_path += ('/' + index + '_' + photo_name);
-		}
+        } else {
+            output_path += ('/' + index + '_' + photo_name);
+        }
 
-		// #IGNORE for rotating the emoji
-		// var face_data = arr[index];
-		// var left_eye = face_data.landmarks[18].leftEyeTopInnerLeft;
-		// var right_eye = face_data.landmarks[25].rightEyeTopInnerRight;
-		// var angle = calculate_slope(left_eye, right_eye);
-		// var emoji_buffer = face_data.buffer; 
+        // #IGNORE for rotating the emoji
+        // var face_data = arr[index];
+        // var left_eye = face_data.landmarks[18].leftEyeTopInnerLeft;
+        // var right_eye = face_data.landmarks[25].rightEyeTopInnerRight;
+        // var angle = calculate_slope(left_eye, right_eye);
+        // var emoji_buffer = face_data.buffer; 
 
-		// // For non zero angle, the emoji needs to be rotated
-		// if (angle != 0) {
-		// 	// Read the emoji and rotate it by the angle
-		// 	gm(destination + "emoji.png")
-		// 		.rotate
-		// }
+        // // For non zero angle, the emoji needs to be rotated
+        // if (angle != 0) {
+        //  // Read the emoji and rotate it by the angle
+        //  gm(destination + "emoji.png")
+        //      .rotate
+        // }
 
-		gm(photo_path)
-			.composite(emoji_dir + '/' + indexed_photo_name)
-			.geometry(geom)
-			.write(output_path, function(err) {
-				if (err) {
-					console.log("Fail to write an image to the output_photo directory " + index);
-					console.log(err);
-				}
-				if (index < arr.length) {
-					emoji_buffer_to_emoji_photo(index, photo_name);
-				} else {
-					delete_middlewares(index, photo_name);
-				}
-			});
-	};
+        gm(photo_path)
+            .composite(emoji_dir + '/' + indexed_photo_name)
+            .geometry(geom)
+            .write(output_path, function(err) {
+                if (err) {
+                    console.log("Fail to write an image to the output_photo directory " + index);
+                    console.log(err);
+                }
+                if (index < arr.length) {
+                    emoji_buffer_to_emoji_photo(index, photo_name);
+                } else {
+                    delete_middlewares(index, photo_name);
+                }
+            });
+    };
 
-	function emoji_buffer_to_emoji_photo(index, photo_name)
-	{
-		var emoji_buffer = arr[index].emojiBuffer;
-		var emoji_path   = emoji_dir + '/' + index + '_' + photo_name;
+    function emoji_buffer_to_emoji_photo(index, photo_name)
+    {
+        var emoji_buffer = arr[index].emojiBuffer;
+        var emoji_path   = emoji_dir + '/' + index + '_' + photo_name;
 
-		if (emoji_buffer) {
-			// Convert the emoji_buff to a photo file to the destination
-			fs.writeFile(emoji_path, emoji_buffer, "binary", function(err) {
-				if (err) console.log("Failed to write buffer to a file with index : " + index);
-				if (!err) insert_emoji(index, photo_name)
-			});
-		} else {
-			console.log("Emoji buffer does not exist for index : " + index);
-		}
-	};
+        if (emoji_buffer) {
+            // Convert the emoji_buff to a photo file to the destination
+            fs.writeFile(emoji_path, emoji_buffer, "binary", function(err) {
+                if (err) console.log("Failed to write buffer to a file with index : " + index);
+                if (!err) insert_emoji(index, photo_name)
+            });
+        } else {
+            console.log("Emoji buffer does not exist for index : " + index);
+        }
+    };
 
-	function run()
-	{
-		if (arr.length == 0) console.log("Given data seems curropted");
-		emoji_buffer_to_emoji_photo(0, orig_photo_name);
-	};
+    function run()
+    {
+        if (arr.length == 0) console.log("Given data seems currupted");
+        emoji_buffer_to_emoji_photo(0, orig_photo_name);
+    };
 
-	run();
+    run();
 };
 
 module.exports = overlay;
