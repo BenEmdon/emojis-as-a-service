@@ -8,6 +8,10 @@ $(document).ready(function() {
 
   $(".overlay").hide();
 
+  $(".socialMed").click(function(){
+    alert("Not implemented yet! :)");
+  });
+
   $('#upload-input').on('change', function(){
     var files = $(this).get(0).files;
 

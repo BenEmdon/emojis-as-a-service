@@ -44,12 +44,20 @@ h5 {
 }
 
 .socialMedia {
-  margin:auto auto;
+  margin:40px auto;
   display:block;
+  text-align:center;
+}
+
+.socialMed:hover{
+  -webkit-box-shadow: 0 8px 6px -6px #999;
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
 }
 
 .socialMedia span {
-  margin: auto 10px;
+  margin-left:10px;
+  margin-right:10px;
 }
 
 .desc {
