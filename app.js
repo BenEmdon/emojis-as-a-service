@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const api = require('./ApiRequest');
 const actions = require('./utils/actions');
-
+const bodyParser = require('body-parser');
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 
 dotenv.config({ silent: true });
@@ -18,6 +18,8 @@ app.use(function(req,res,next){
   console.log(req.method + " request for " + req.url);
   next();
 });
+
+app.use(bodyParser.urlencoded());
 
 // app.post("/upload", upload.single('pic'), function(req, res) {
 //  console.log(req.file);

@@ -21,17 +21,15 @@
     "node": "7.1.0"
   },
   "dependencies": {
+    "async": "^2.2.0",
+    "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.0",
     "formidable": "^1.1.1",
-    "async": "^2.2.0",
     "gm": "^1.23.0",
     "path": "^0.12.7",
-    "underscore": "^1.8.3",
-    "async": "^2.2.0",
-    "gm": "^1.23.0",
-    "path": "^0.12.7"
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "underscore": "^1.8.3"
   }
 }
