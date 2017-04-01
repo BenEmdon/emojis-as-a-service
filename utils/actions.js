@@ -96,57 +96,340 @@ function scaleImage(image, person, callback) {
     .toBuffer('PNG', function(err, buffer) {
       if (err) return callback(err);
       person.emojiBuffer = buffer;
+			fs.writeFile("test.png", buffer, "binary", function() {});
       callback();
     });
 }
 
 const test_data = {
-  "people": [
-    {
-      "emotions": {
-        "anger": 4,
-        "disgust": 0.068,
-        "fear": 2,
-        "joy": 1.006,
-        "sadness": 0,
-        "surprise": 2
-      },
-      "face": {
-        "height": 248,
-        "width": 248,
-        "x": 298,
-        "y": 126
-      },
-      "pose": {
-        "pitch": 0.900874,
-        "roll": -2.14441,
-        "yaw": -11.3128
-      },
-    },
-    {
-      "emotions": {
-        "anger": 4,
-        "disgust": 0.068,
-        "fear": 2,
-        "joy": 1.006,
-        "sadness": 0,
-        "surprise": 2
-      },
-      "face": {
-        "height": 500,
-        "width": 500,
-        "x": 298,
-        "y": 126
-      },
-      "pose": {
-        "pitch": 0.900874,
-        "roll": -2.14441,
-        "yaw": -11.3128
-      },
-    }
+	"people": [
+                {
+                    "person_id": "0",
+                    "demographics": {
+                        "age_group": "Young Adult",
+                        "gender": "Male"
+                    },
+                    "appearance": {
+                        "glasses": "Yes"
+                    },
+                    "emotions": {
+                        "anger": 0,
+                        "disgust": 0,
+                        "fear": 0,
+                        "joy": 0,
+                        "sadness": 0,
+                        "surprise": 0
+                    },
+                    "tracking": {
+                        "glances": 1,
+                        "dwell": 0,
+                        "attention": 100,
+                        "blink": "No"
+                    },
+                    "landmarks": [
+                        {
+                            "leftEyeBrowOuterLeft": {
+                                "x": 623,
+                                "y": 766
+                            }
 
-  ],
-  "time": 83
+                        {
+                            "leftEyeBrowInnerLeft": {
+                                "x": 639,
+                                "y": 766
+                            }
+                        },
+                        {
+                            "leftEyeBrowInnerRight": {
+                                "x": 656,
+                                "y": 771
+                            }
+                        },
+                        {
+                            "leftEyeBrowOuterRight": {
+                                "x": 669,
+                                "y": 783
+                            }
+                        },
+                        {
+                            "righteEyeBrowOuterLeft": {
+                                "x": 688,
+                                "y": 786
+                            }
+                        },
+                        {
+                            "rightEyeBrowInnerLeft": {
+                                "x": 702,
+                                "y": 780
+                            }
+                        },
+                        {
+                            "rightEyeBrowInnerRight": {
+                                "x": 717,
+                                "y": 781
+                            }
+                        },
+                        {
+                            "rightEyeBrowOuterRight": {
+                                "x": 731,
+                                "y": 788
+                            }
+                        },
+                        {
+                            "noseBetweenEyes": {
+                                "x": 676,
+                                "y": 813
+                            }
+                        },
+                        {
+                            "noseBridge": {
+                                "x": 674,
+                                "y": 831
+                            }
+                        },
+                        {
+                            "noseBody": {
+                                "x": 670,
+                                "y": 849
+                            }
+                        },
+                        {
+                            "noseTipTop": {
+                                "x": 667,
+                                "y": 867
+                            }
+                        },
+                        {
+                            "leftNostrilOuterLeft": {
+                                "x": 644,
+                                "y": 880
+                            }
+                        },
+                        {
+                            "leftNostrilOuterRight": {
+                                "x": 653,
+                                "y": 886
+                            }
+                        },
+                        {
+                            "noseTipBottom": {
+                                "x": 663,
+                                "y": 890
+                            }
+                        },
+                        {
+                            "rightNostrilInnerLeft": {
+                                "x": 673,
+                                "y": 890
+                            }
+                        },
+                        {
+                            "rightNostrilOuterRight": {
+                                "x": 682,
+                                "y": 887
+                            }
+                        },
+                        {
+                            "leftEyeCornerLeft": {
+                                "x": 625,
+                                "y": 805
+                            }
+                        },
+                        {
+                            "leftEyeTopInnerLeft": {
+                                "x": 638,
+                                "y": 807
+                            }
+                        },
+                        {
+                            "leftEyeTopInnerRight": {
+                                "x": 648,
+                                "y": 810
+                            }
+                        },
+                        {
+                            "leftEyeCornerRight": {
+                                "x": 656,
+                                "y": 812
+                            }
+                        },
+                        {
+                            "leftEyeBottomInnerRight": {
+                                "x": 646,
+                                "y": 812
+                            }
+                        },
+                        {
+                            "leftEyeBottomInnerLeft": {
+                                "x": 635,
+                                "y": 811
+                            }
+                        },
+                        {
+                            "rightEyeCornerLeft": {
+                                "x": 698,
+                                "y": 820
+                            }
+                        },
+                        {
+                            "rightEyeTopInnerLeft": {
+                                "x": 709,
+                                "y": 821
+                            }
+                        },
+                        {
+                            "rightEyeTopInnerRight": {
+                                "x": 719,
+                                "y": 824
+                            }
+                        },
+                        {
+                            "rightEyeCornerRight": {
+                                "x": 726,
+                                "y": 825
+                            }
+                        },
+                        {
+                            "rightEyeBottomInnerRight": {
+                                "x": 717,
+                                "y": 828
+                            }
+                        },
+                        {
+                            "rightEyeBottomInnerLeft": {
+                                "x": 707,
+                                "y": 825
+                            }
+                        },
+                        {
+                            "upperLipTopCornerLeft": {
+                                "x": 624,
+                                "y": 917
+                            }
+                        },
+                        {
+                            "upperLipTopOuterLeft": {
+                                "x": 639,
+                                "y": 914
+                            }
+                        },
+                        {
+                            "upperLipTopInnerLeft": {
+                                "x": 651,
+                                "y": 913
+                            }
+                        },
+                        {
+                            "upperLipTopCenter": {
+                                "x": 657,
+                                "y": 917
+                            }
+                        },
+                        {
+                            "upperLipTopInnerRight": {
+                                "x": 665,
+                                "y": 918
+                            }
+                        },
+                        {
+                            "upperLipTopOuterRight": {
+                                "x": 677,
+                                "y": 923
+                            }
+                        },
+                        {
+                            "upperLipTopCornerRight": {
+                                "x": 688,
+                                "y": 932
+                            }
+                        },
+                        {
+                            "lowerLipBottomCornerRight": {
+                                "x": 672,
+                                "y": 942
+                            }
+                        },
+                        {
+                            "lowerLipBottomInnerRight": {
+                                "x": 659,
+                                "y": 944
+                            }
+                        },
+                        {
+                            "lowerLipBottomCenter": {
+                                "x": 651,
+                                "y": 943
+                            }
+                        },
+                        {
+                            "lowerLipBottomInnerLeft": {
+                                "x": 643,
+                                "y": 939
+                            }
+                        },
+                        {
+                            "lowerLipBottomCornerLeft": {
+                                "x": 634,
+                                "y": 932
+                            }
+                        },
+                        {
+                            "upperLipBottomOuterLeft": {
+                                "x": 631,
+                                "y": 920
+                            }
+                        },
+                        {
+                            "upperLipBottomInnerLeft": {
+                                "x": 648,
+                                "y": 925
+                            }
+                        },
+                        {
+                            "upperLipBottomCenter": {
+                                "x": 656,
+                                "y": 927
+                            }
+                        },
+                        {
+                            "uppeLipMBottomInnerRight": {
+                                "x": 661,
+                                "y": 929
+                            }
+                        },
+                        {
+                            "upperLipBottomOuterRight": {
+                                "x": 682,
+                                "y": 933
+                            }
+                        },
+                        {
+                            "lowerLipInnerRight": {
+                                "x": 661,
+                                "y": 931
+                            }
+                        },
+                        {
+                            "lowerLipTopInnerLeft": {
+                                "x": 647,
+                                "y": 928
+                            }
+                        }
+                    ],
+                    "pose": {
+                        "yaw": 3.18194,
+                        "pitch": 5.20989,
+                        "roll": -14.3188
+                    },
+                    "face": {
+                        "x": 541,
+                        "y": 679,
+                        "width": 250,
+                        "height": 337
+                    },
+                    "distance": 84.4038
+                }
+            ]
 }
 
 getAllEmojis(test_data, function() {
