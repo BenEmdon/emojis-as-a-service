@@ -2,23 +2,14 @@ const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
 const api = require('./ApiRequest.js');
-const path = require('path');
-// const multer  = require('multer');
-// const upload = multer({dest: __dirname + '/public_html/images/'});
-const multer = require('multer')
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, __dirname + '/public_html/images/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
-const upload = multer({storage: storage})
 
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 
 dotenv.config({ silent: true });
+
+var path = require('path');
+var formidable = require('formidable');
+var fs = require('fs');
 
 const ROOT = "./public_html";
 
@@ -27,17 +18,48 @@ app.use(function(req,res,next){
 	next();
 });
 
-app.post("/upload", upload.single('pic'), function(req, res) {
-	console.log(req.file);
-	api(imageURL + req.file.filename)
-	.then((imageData) => {
-		console.log(imageData);
-		res.send(imageData);
-	})
-	.catch((error) => {
-		console.log(error);
-		res.send(error);
-	});
+// app.post("/upload", upload.single('pic'), function(req, res) {
+// 	console.log(req.file);
+// 	api(imageURL + req.file.filename)
+// 	.then((imageData) => {
+// 		console.log(imageData);
+// 		res.send(imageData);
+// 	})
+// 	.catch((error) => {
+// 		console.log(error);
+// 		res.send(error);
+// 	});
+// });
+
+app.post('/upload', function(req, res){
+
+  // create an incoming form object
+  var form = new formidable.IncomingForm();
+
+  // specify that we want to allow the user to upload multiple files in a single request
+  form.multiples = true;
+
+  // store all uploads in the /uploads directory
+  form.uploadDir = path.join(__dirname, '/uploads');
+
+  // every time a file has been uploaded successfully,
+  // rename it to it's orignal name
+  form.on('file', function(field, file) {
+    fs.rename(file.path, path.join(form.uploadDir, file.name));
+  });
+
+  // log any errors that occur
+  form.on('error', function(err) {
+    console.log('An error has occured: \n' + err);
+  });
+
+  // once all the files have been uploaded, send a response to the client
+  form.on('end', function() {
+    res.end('success');
+  });
+
+  // parse the incoming request containing the form data
+  form.parse(req);
 });
 
 app.use(express.static(ROOT));  //handle all static requests
@@ -49,4 +71,4 @@ app.all("*",function(req, res) {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`Express server listening on port ${port}`);
-});
+})
