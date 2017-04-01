@@ -37,7 +37,7 @@ function processAPIData(res, data, filename) {
       setTimeout(() => {
         api.get(data.id)
         .then((newData) => {
-          processAPIData(res, newData)
+          processAPIData(res, newData, filename)
         })
         .catch((error) => {
             console.log(`Error = ${error}`)
