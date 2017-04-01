@@ -54,7 +54,7 @@ $(document).ready(function() {
               $('.progress-bar').width(percentComplete + '%');
 
               if (percentComplete === 100) {
-                $('.progress-bar').html('Done');
+                $('.progress-bar').html('Processing Image... Please Wait');
               }
 
             }
