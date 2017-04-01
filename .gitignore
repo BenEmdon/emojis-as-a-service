@@ -41,4 +41,6 @@ public_html/images/*
 .idea
 
 
-uploads/*
+uploads/*.jpg
+uploads/*.png
+uploads/*.jpeg
