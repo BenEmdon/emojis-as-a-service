@@ -2,12 +2,57 @@ html, body{
 	padding:0px;
 	margin:0px;
 	width:100%;
-	background-color:#303030;
+  height:100%;
+  background: url(Images/background.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1 {
 	text-align: center;
 	font-family: 'Lato', sans-serif;
+}
+
+h5 {
+  text-align:center;
+  margin:0px;
+}
+
+.nav{
+  height:190px;
+  background-color:#f4f5f7;
+  width:100%;
+  position:fixed;
+  z-index:999999;
+
+  -webkit-box-shadow: 0 8px 6px -6px #999;
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
+}
+
+.logo{
+  padding-top:20px;
+}
+
+.desc {
+  text-align:center;
+  margin-top:15px;
+}
+
+.uploadContent{
+  position: fixed;
+  bottom: 0;
+  width: 760px;
+  height:530px;
+  background-color:#f4f5f7;
+  left:25%;
+  bottom:-530px;
+
+  -moz-box-shadow: 0 0 10px #878787;
+  -webkit-box-shadow: 0 0 10px #878787;
+  box-shadow: 0 0 10px #878787;
 }
 
 .header{
@@ -31,11 +76,20 @@ h1 {
   outline: 0 !important;
 }
 
-/* CSS */
+.panel-body{
+  text-align:center;
+}
+
+.panel{
+  margin-bottom:0px;
+  border:0;
+  box-shadow: none !important;
+  background-color:#f4f5f7;
+}
 
 .upload-btn {
-  color: #ffffff;
-  background-color: #F89406;
+  color: #f4f5f7;
+  background-color: #ff0077;
   border: none;
 }
 
@@ -43,43 +97,105 @@ h1 {
 .upload-btn:focus,
 .upload-btn:active,
 .upload-btn.active {
-  color: #ffffff;
-  background-color: #FA8900;
+  color: #f4f5f7;
+  background-color: #fb53a1;
   border: none;
 }
 
 h4 {
   padding-bottom: 30px;
-  color: #B8BDC1;
+  color: #737373;
+  font-family: 'Lato', sans-serif;
+}
+
+.bounce {
+  animation: bounce 2s;
+  -webkit-animation: bounce 2s;
+  -moz-animation: bounce 2s;
+  -o-animation: bounce 2s;
 }
 
 .glyphicon {
   font-size: 5em;
-  color: #9CA3A9;
+  color: #303030;
+}
+
+.progress{
+  background-color:#b0b0b0;
+}
+
+.progress-bar{
+  background-color:#4fbeec;
 }
 
 h2 {
   margin-top: 15px;
-  color: #68757E;
-}
-
-.panel {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  color: #303030;
 }
 
 #upload-input {
   display: none;
 }
 
-@media (min-width: 768px) {
-  .main-container {
-    width: 100%;
+@media (min-width: 1200px) {
+  .container {
+    width:470px;
   }
 }
 
-@media (min-width: 992px) {
-  .container {
-    width: 450px;
-  }
+.beforeAfter{
+  width:100%;
+  padding:20px;
 }
+
+/*.bounce {
+  -webkit-animation-name: bounce;
+  -moz-animation-name: bounce;
+  -o-animation-name: bounce;
+  animation-name: bounce;
+}
+.animated{
+  -webkit-animation-fill-mode:both;
+  -moz-animation-fill-mode:both;
+  -ms-animation-fill-mode:both;
+  -o-animation-fill-mode:both;
+
+  animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+
+  animation-fill-mode:both;
+  -webkit-animation-duration:2s;
+  -moz-animation-duration:2s;
+  -ms-animation-duration:2s;
+  -o-animation-duration:2s;
+  animation-duration:2s;
+}
+
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0);
+  } 
+  40% {
+    -webkit-transform: translateY(-20px);
+  }
+  60% {
+    -webkit-transform: translateY(-15px);}
+}
+
+@-moz-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);}
+  40% {-moz-transform: translateY(-20px);}
+  60% {-moz-transform: translateY(-15px);}
+}
+
+@-o-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);}
+  40% {-o-transform: translateY(-20px);}
+  60% {-o-transform: translateY(-15px);}
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-20px);}
+  60% {transform: translateY(-15px);}
+}*/
