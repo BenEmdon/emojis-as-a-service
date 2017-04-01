@@ -46,9 +46,10 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
             api(imageURL + file.name).then((imageData) => {
-                /*actions.getAllEmojis(imageData.frames[0], () => {
-        res.sendFile(file.path);
-      })*/
+                console.log(imageData);
+                actions.getAllEmojis(imageData.frames[0], () => {
+                    console.log('Got all emojis');
+                })
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
