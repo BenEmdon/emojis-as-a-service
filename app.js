@@ -78,6 +78,11 @@ app.post('/upload', function(req, res){
   form.parse(req);
 });
 
+app.post('/slack', function (req, res){
+  console.log(req.body);
+  res.send('great');
+});
+
 app.use('/images', express.static('./uploads'));
 
 app.use(express.static(ROOT));  //handle all static requests
