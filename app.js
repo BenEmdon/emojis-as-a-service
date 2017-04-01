@@ -36,8 +36,13 @@ function processAPIData(res, data, filename) {
         })
     } else if (data.status_code) {
       setTimeout(() => {
-        api.get(data.id, (newData) => {
+        api.get(data.id)
+        .then((newData) => {
           processAPIData(res, newData)
+        })
+        .catch((error) => {
+            console.log(`Error = ${error}`)
+            res.send(error);
         });
       }, 500);
     } else {
