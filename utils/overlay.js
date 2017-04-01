@@ -348,7 +348,7 @@ var data = {
     "status_code": 4,
     "status_message": "Complete",
     "length": 0
-}
+};
 
 // ***** Testing with fake buffer *****
 // Create a fake buffer and put them into the fake data
@@ -385,7 +385,7 @@ function overlay(analysis_result, orig_photo_name)
 				if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
 			});
 		}
-	}
+	};
 
 	function calculate_slope(left_eye, right_eye) {
 		return (Math.atan((right_eye.y - left_eye.y) / (right_eye.x - left_eye.x)) * 180 / Math.PI);
@@ -438,7 +438,7 @@ function overlay(analysis_result, orig_photo_name)
 					delete_middlewares(index, photo_name);
 				}
 			});
-	}
+	};
 
 	function emoji_buffer_to_emoji_photo(index, photo_name)
 	{
@@ -454,13 +454,15 @@ function overlay(analysis_result, orig_photo_name)
 		} else {
 			console.log("Emoji buffer does not exist for index : " + index);
 		}
-	}
+	};
 
 	function run()
 	{
 		if (arr.length == 0) console.log("Given data seems curropted");
 		emoji_buffer_to_emoji_photo(0, orig_photo_name);
-	}
+	};
 
 	run();
-}
+};
+
+module.exports = overlay;
