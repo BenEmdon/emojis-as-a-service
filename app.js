@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.json());
 
-function processAPIData(res, data) {
+function processAPIData(res, data, file) {
     if (!data.status_code) {
         console.log(data);
         res.send(data);
@@ -26,6 +26,7 @@ function processAPIData(res, data) {
     if (data.status_code === 4 && data.frames) {
         actions.getAllEmojis(data.frames[0], () => {
             console.log(`EMOJI: ${data.frames[0]}`);
+            
         })
     } else if (data.status_code === 2) {
       setTimeout(() => {
@@ -55,7 +56,7 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
             api.post(imageURL + file.name).then((data) => {
-              processAPIData(res, data);
+              processAPIData(res, data, file.name);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
