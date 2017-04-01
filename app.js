@@ -51,7 +51,9 @@ app.post('/upload', function(req, res){
 		.then((imageData) => {
 			console.log(imageData);
       actions.getAllEmojis(imageData.frames[0], () => {
-        res.send(imageData);
+        console.log(imageData);
+          res.send(imageData);
+          
       })
 		})
 		.catch((error) => {
@@ -72,6 +74,11 @@ app.post('/upload', function(req, res){
 
   // parse the incoming request containing the form data
   form.parse(req);
+});
+
+app.post('/slack', function (req, res){
+    console.log(req.body);
+    res.send('great');
 });
 
 app.use('/images', express.static('./uploads'));
