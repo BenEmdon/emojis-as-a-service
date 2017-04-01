@@ -18,7 +18,7 @@ app.use(function(req,res,next){
   console.log(req.method + " request for " + req.url);
   next();
 });
-
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 // app.post("/upload", upload.single('pic'), function(req, res) {
