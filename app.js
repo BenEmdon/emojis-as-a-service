@@ -81,19 +81,29 @@ app.post('/upload', function (req, res) {
     form.parse(req);
 });
 app.post('/slack', function (req, res) {
-   console.log(req.body.image_url);
-    path.extname(req.body.image_url)
+//   console.log(req.body.image_url);
+//    path.extname(req.body.image_url)
  var name = Date.now() + path.extname(req.body.image_url); 
     requester(req.body.image_url, {encoding: 'binary'}, function(error, response, body) {
-        fs.writeFile(name, body, 'binary', function (err) {});
-        name = name.slice(2);
-        api.post(imageURL+ name).then((data) => {
-            console.log(name);
+        if (error) {
+            console.log(error);
+            return;
+        }
+        fs.writeFile(name, body, 'binary', function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+               api.post(imageURL+ name).then((data) => {
+//            console.log(name);
                 processAPIData(res, data, name);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
             });
+        });
+//        name = name.slice(2);
+     
     });
 });
 
