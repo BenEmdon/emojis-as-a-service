@@ -130,8 +130,8 @@ const test_data = {
                         {
                             "leftEyeBrowOuterLeft": {
                                 "x": 623,
-                                "y": 766
-                            }
+                              "y": 766}
+                            },
 
                         {
                             "leftEyeBrowInnerLeft": {
