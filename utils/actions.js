@@ -31,7 +31,7 @@ function mapObject(emotions){
 }
 
 function analyseEmotions(emotions){
-  if (emotions === undefined) return;
+  if (emotions === undefined) return "joy";
 
   if(emotions.length === 0){
     return "neutral";
