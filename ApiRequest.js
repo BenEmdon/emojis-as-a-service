@@ -16,7 +16,7 @@ const request = (imagePath) => {
     rp(options)
     .then((response) => {
       console.log(`response`);
-      resolve(response.frames[0].people)
+      resolve(response)
     })
     .catch((error) => {
       console.log(`error`);
