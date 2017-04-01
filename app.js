@@ -89,7 +89,7 @@ app.post('/slack', function (req, res) {
             console.log(error);
             return;
         }
-        fs.writeFile(name, body, 'binary', function (err) {
+        fs.writeFile('./uploads/' + name, body, 'binary', function (err) {
             if (err) {
                 console.log(err);
                 return;
