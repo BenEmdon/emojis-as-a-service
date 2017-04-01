@@ -26,10 +26,10 @@ $(document).ready(function() {
         processData: false,
         contentType: false,
         success: function(data){
-            console.log('upload successful!\n' + data.data);
+            console.log('upload successful!\n' + data);
             $(".overlay").show();
             $(".uploadContent").hide();
-            $("#outputtedImg").attr("src",data.data);
+            $("#outputtedImg").attr("src",data);
 
         },
         xhr: function() {
