@@ -19,7 +19,7 @@ app.use(function(req,res,next){
   next();
 });
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+//app.use(bodyParser.urlencoded());
 
 // app.post("/upload", upload.single('pic'), function(req, res) {
 //  console.log(req.file);
@@ -81,7 +81,17 @@ app.post('/upload', function(req, res){
 });
 
 app.post('/slack', function (req, res){
-  console.log(req.body);
+  console.log(req.body.image_url);
+    api(req.body.image_url)
+        .then((imageData) => {
+          /*actions.getAllEmojis(imageData.frames[0], () => {
+        res.sendFile(file.path);
+      })*/
+        })
+        .catch((error) => {
+          console.log(error);
+          res.send(error);
+        });
   res.send('great');
 });
 
