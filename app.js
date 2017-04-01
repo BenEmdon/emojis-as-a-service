@@ -97,22 +97,6 @@ app.post('/slack', function (req, res) {
     });
 });
 
-app.get('/slack', function (req, res) {
-   console.log(req.body.image_url);
-//    path.extname(req.body.image_url)
- var name = './uploads/' + Date.now() + 'jpg'; 
-    requester('https://cdn.macrumors.com/article-new/2017/03/airrings-april-fools.jpg', {encoding: 'binary'}, function(error, response, body) {
-        fs.writeFile(name, body, 'binary', function (err) {});
-        name = name.slice(2);
-        api.post(imageURL+ name).then((data) => {
-            console.log(name);
-                processAPIData(res, data, name);
-            }).catch((error) => {
-                console.log(error);
-                res.send(error);
-            });
-    });
-});
 app.use('/images', express.static('./uploads'));
 app.use(express.static(ROOT)); //handle all static requests
 app.all("*", function (req, res) {
