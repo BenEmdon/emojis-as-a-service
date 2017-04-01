@@ -4,6 +4,7 @@ const app = express();
 const api = require('./ApiRequest');
 const actions = require('./utils/actions');
 const bodyParser = require('body-parser');
+const requester = require('request')
 const overlay = require('./utils/overlay');
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 dotenv.config({
@@ -83,7 +84,7 @@ app.post('/slack', function (req, res) {
    console.log(req.body.image_url);
     path.extname(req.body.image_url)
  var name = './uploads' + Date.now() + path.extname(req.body.image_url); 
-    request(req.body.image_url, {encoding: 'binary'}, function(error, response, body) {
+    requester(req.body.image_url, {encoding: 'binary'}, function(error, response, body) {
         fs.writeFile(name, body, 'binary', function (err) {});
         api.post(name).then((data) => {
             console.log(name);
