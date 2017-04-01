@@ -8,6 +8,10 @@ $(document).ready(function() {
 
   $(".overlay").hide();
 
+  $("#retry").click(function() {
+    location.reload();
+  });
+
   $(".socialMed").click(function(){
     alert("Not implemented yet! :)");
   });

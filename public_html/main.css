@@ -90,6 +90,17 @@ h5 {
   box-shadow: 0 0 10px #878787;
 }
 
+#retry{
+  margin-top:10px;
+  background-color:#00adef !important;
+  color: #f4f5f7;
+}
+
+#retry:hover{
+  background-color:#6cc8eb !important;
+}
+
+
 .header{
 	width:100%;
 	height:auto;
