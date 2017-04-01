@@ -4,7 +4,7 @@ const app = express();
 const api = require('./ApiRequest');
 const actions = require('./utils/actions');
 const bodyParser = require('body-parser');
-const overlay = require('./utils/ovrlay');
+const overlay = require('./utils/overlay');
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 dotenv.config({
     silent: true
