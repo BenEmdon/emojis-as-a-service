@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 function processAPIData(res, data, filename) {
     if (data.status_code === undefined) {
-        console.log(data);
+        console.log('24=' + data);
         res.send(data);
     } else if (data.status_code === 4 && data.frames) {
         console.log(`=> PRE-EMOJI: ${data.frames[0]}`);
@@ -67,7 +67,8 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             
             api.post(imageURL + file.name).then((data) => {
-                console.log('70 =' + data)
+                console.log('70 =' + data);
+                console.log(data.status_code);
                 processAPIData(res, data, file.name);
             }).catch((error) => {
                 console.log(error);
