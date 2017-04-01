@@ -29,8 +29,8 @@ $(document).ready(function() {
             console.log('upload successful!\n' + data);
             $(".overlay").show();
             $(".uploadContent").hide();
+            $("html").css("background-color", "#303030");
             $("#outputtedImg").attr("src",data);
-
         },
         xhr: function() {
           // create an XMLHttpRequest

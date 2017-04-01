@@ -43,6 +43,15 @@ h5 {
   padding-top:20px;
 }
 
+.socialMedia {
+  margin:auto auto;
+  display:block;
+}
+
+.socialMedia span {
+  margin: auto 10px;
+}
+
 .desc {
   text-align:center;
   margin-top:15px;
