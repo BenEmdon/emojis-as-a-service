@@ -4,6 +4,7 @@ const app = express();
 const api = require('./ApiRequest');
 const actions = require('./utils/actions');
 const bodyParser = require('body-parser');
+const overlay = require('./utils/ovrlay');
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 dotenv.config({
     silent: true
@@ -18,7 +19,7 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.json());
 
-function processAPIData(res, data, filepath) {
+function processAPIData(res, data, filename) {
     if (!data.status_code) {
         console.log(data);
         res.send(data);
@@ -26,7 +27,11 @@ function processAPIData(res, data, filepath) {
     if (data.status_code === 4 && data.frames) {
         actions.getAllEmojis(data.frames[0], () => {
             console.log(`EMOJI: ${data.frames[0]}`);
-            
+            overlay(data, filename, () => {
+                res.json({
+                    'url': imageURL + filename
+                });
+            });
         })
     } else if (data.status_code === 2) {
       setTimeout(() => {
@@ -56,7 +61,7 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
             api.post(imageURL + file.name).then((data) => {
-              processAPIData(res, data, file.path);
+              processAPIData(res, data, file.name);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
