@@ -85,21 +85,21 @@ app.post('/upload', function (req, res) {
     // parse the incoming request containing the form data
     form.parse(req);
 });
-// app.post('/slack', function (req, res) {
-//     console.log(req.body.image_url);
-//     api.post(req.body.image_url).then((data) => {
-//         /*actions.getAllEmojis(imageData.frames[0], () => {
-//         res.sendFilexfile.path);
-//       })*/
-//         processAPIData(res, data, req.body.image_url);
-//         res.json({
-//             url: 'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg'
-//         });
-//     }).catch((error) => {
-//         console.log(error);
-//         res.send(error);
-//     });
-// });
+app.post('/slack', function (req, res) {
+    console.log(req.body.image_url);
+    api.post(req.body.image_url).then((data) => {
+        /*actions.getAllEmojis(imageData.frames[0], () => {
+        res.sendFilexfile.path);
+      })*/
+        processAPIData(res, data, req.body.image_url);
+        res.json({
+            url: 'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg'
+        });
+    }).catch((error) => {
+        console.log(error);
+        res.send(error);
+    });
+});
 app.use('/images', express.static('./uploads'));
 app.use(express.static(ROOT)); //handle all static requests
 app.all("*", function (req, res) {
