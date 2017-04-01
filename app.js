@@ -18,6 +18,23 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.json());
 
+function process(res, data) {
+    if (imageData.status_code === 4) {
+        actions.getAllEmojis(imageData.frames[0], () => {
+            console.log(`EMOJI: ${imageData.frames[0]}`);
+        })
+    } else if (imageData.status_code === 2) {
+        setTimeout(() => {
+            process(res, data);
+        }, 
+        200);
+    } else {
+        console.log(imageData);
+    }
+    
+                
+} 
+
 app.post('/upload', function (req, res) {
     // create an incoming form object
     var form = new formidable.IncomingForm();
@@ -34,16 +51,15 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
             api(imageURL + file.name).then((imageData) => {
-                console.log(imageData);
-                actions.getAllEmojis(imageData.frames[0], () => {
-                    console.log(`EMOJI: ${imageData.frames[0]}`);
-                })
+
+                
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
             });
         });
     });
+
     // log any errors that occur
     form.on('error', function (err) {
         console.log('An error has occured: \n' + err);
