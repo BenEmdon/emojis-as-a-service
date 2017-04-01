@@ -459,7 +459,11 @@ function overlay(analysis_result, orig_photo_name, callback)
 
 	function run()
 	{
-		if (arr.length == 0) console.log("Given data seems curropted");
+		if (arr.length == 0) {
+            console.log("Given data seems curropted");
+            callback();
+            return;
+        }
 		emoji_buffer_to_emoji_photo(0, orig_photo_name);
 	};
 
