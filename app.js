@@ -65,7 +65,7 @@ app.post('/upload', function (req, res) {
             if (err) return res.send(err);
             file.path = file.path + path.extname(file.name);
             file.name = path.basename(file.path);
-            res.send(imageURL + file.name);
+            
             api.post(imageURL + file.name).then((data) => {
               processAPIData(res, data, file.name);
             }).catch((error) => {
