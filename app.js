@@ -84,6 +84,7 @@ app.post('/slack', function (req, res) {
 //   console.log(req.body.image_url);
 //    path.extname(req.body.image_url)
  var name = Date.now() + path.extname(req.body.image_url); 
+    name = name.split('?')[0];
     requester(req.body.image_url, {encoding: 'binary'}, function(error, response, body) {
         if (error) {
             console.log(error);
