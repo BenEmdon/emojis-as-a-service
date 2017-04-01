@@ -1,20 +1,7 @@
-console.log("Testing GraphicsMagick");
-console.log("\tcurrent directory : " + __dirname);
+const fs = require('fs');
+const gm = require('gm');
 
-var fs = require('fs');
-var gm = require('gm');
-
-var work_directory = __dirname;
-var photo_name = 'nick.jpg';
-var photo_name_no_format = photo_name.substring(photo_name.indexOf("."));
-var photo_path = work_directory + photo_name;
-
-var photo_info;
-var emoji_buff;
-
-var orig_photo_buff;
-var orig_photo = __dirname + '/nick.jpg';
-
+// Fake data to test (2 face_data currently)
 var data = {
     "id": "b8a2e96fe6478b2c158a2f75",
     "media_info": {
@@ -692,174 +679,165 @@ var data = {
 }
 
 var arr = data.frames[0].people;
+var orig_photo = __dirname + '/0_nick.jpg';
+var orig_photo_name = 'nick.jpg';
+// var destination = __dirname + '/asset/output_photo';
 
-function writing_buff_to_file(buff)
-{
-	gm(buff, 'image.jpg')
-		.write(__dirname + '/new.jpg', function (err) {
-		  if (err) console.log(err);
-		  console.log('Created an image from a Buffer!');
-		});
-}
+// Make a buffer for a sample emoji
+gm(__dirname + '/test.png')
+	.toBuffer('PNG' ,function (err, buffer) {
+		if (err) console.log("fail to make a fake buffer");
 
-function process(index, buff)
-{
-	if (buff == null) {
-		console.log("WRONG");
-	}
-	console.log(index);
-	console.log(arr.length);
-	var geom = "'+" + arr[index].face.x + "+" + arr[index].face.y + "'";
-	gm(buff, 'image.jpg')
-		.composite(__dirname + '/test.png')
-		.geometry(geom)
-		.toBuffer(orig_photo_format, function(err, buffer) {
-			if (err) console.log(err);
-			if (arr.length > index + 1) {
-				process(index + 1, buffer);
-			} else {
-				writing_buff_to_file(buffer);
-			}
-		});
-}
+		function insert_emoji(index, photo_name)
+		{
+			var geom = "+" + arr[index].face.x + "+" + arr[index].face.y;
+			var emoji_buffer = arr[index].buffer;
+			// Write buffer into the file
 
-function store_photo_buff(orig_photo, format) {
-	gm(orig_photo)
-		// Create a buffer for the original photo
-		.toBuffer(format, function(err, buffer) {
-			if (err) console.log(err);
-			orig_photo_buff = buffer;
+			gm(__dirname + '/' + index + '_' + photo_name)
+				.composite(__dirname + '/test.png')
+				.geometry(geom)
+				.write(__dirname + '/' + (index + 1) + '_nick.jpg', function(err) {
+					if (err) console.log("Fail to write an image to the output_photo directory " + index);
+					if (index + 1 < arr.length) {
+						index += 1;
+						insert_emoji(index, photo_name);
+					}
+				});
+		}
 
+		insert_emoji(0, orig_photo_name);
+	});
 
-
-			// if (arr.length > 0) {
-			// 	process(0, buffer);
-			// } else {
-			// 	console.log("No face detected");
-			// }
-		});
-};
-
-function analyze_photo_format(orig_photo) {
-	gm(orig_photo)
-		// Get a image format
-		.identify(function(err, data) {
-			if (err) console.log("Failed to read an image");
-			orig_photo_format = data.format;
-
-			// Create a buffer for the original photo
-			store_photo_buff(orig_photo, data.format);
-		});
-};
-
-// analyze_photo_format(orig_photo);
-
-arr.forEach(function(face_data, index) {
-	console.log("index : " + index);
-	var geom = "+" + face_data.face.x + "+" + face_data.face.y;
-	console.log(geom);
-
-	gm(__dirname + '/nick' + index + '.jpg')
-		.composite(__dirname + '/test.png')
-		.geometry(geom)
-		.write(__dirname + '/nick' + index + 1 + '.jpg', function(err) {
-			if (err) {
-				console.log("Fail to write an image to the output_photo directory");
-				console.log(err);
-			}
-		});
-
-	console.log("index : " + index + " done");
-})
-
-
-
-// // Make a buffer for a sample emoji
-// gm(work_directory + 'test.png')
-// 	.toBuffer('PNG' ,function (err, buffer) {
-// 		if (err) return handle(err);
-// 		emoji_buff = buffer;
-// 	})
-
-// gm(work_directory + '/test.png')
-// 	.identify(function(err, data) {
-// 		if (err) console.log("Failed to read an image");
-// 		photo_info = data;
-// 		console.log(data);
-// 	});
-
-// function InsertEmoji(analysis_result, orig_photo) {
-// 	var orig_photo_format, orig_photo_buff;
-// 	var people_arr = analysis_result.frames[0].people;
-// 	var destination = work_directory + "/asset/output_photo/";
-
-// 	function calculate_slope(left_eye, right_eye) {
-// 		angle = Math.atan((right_eye.y - left_eye.y) / (right_eye.x - left_eye.x)) * 180 / Math.PI;
-// 		return -1 * angle;
-// 	};
-
-// 	function store_photo_buff(orig_photo) {
-// 		gm(orig_photo)
-// 			// Create a buffer for the original photo
-// 			.toBuffer('', function(err, buffer) {
-// 				if (err) return handle(err);
-// 				orig_photo_buff = buffer;
-// 			});
-// 	};
-
-// 	function analyze_photo_format(orig_photo) {
-// 		gm(orig_photo)
-// 			// Get a image format
-// 			.identify(function(err, data) {
-// 				if (err) console.log("Failed to read an image");
-// 				orig_photo_format = data.format;
-
-// 				// Create a buffer for the original photo
-// 				store_photo_buff(orig_photo);
-// 			});
-// 	};
-
-// 	analyze_photo_format();
-	
-// 	people_arr.forEach(function(face_data) {
-// 		var left_eye = face_data.landmarks[18].leftEyeTopInnerLeft;
-// 		var right_eye = face_data.landmarks[25].rightEyeTopInnerRight;
-// 		var angle = calculate_slope(left_eye, right_eye);
-// 		var emoji_buffer = face_data.buffer; 
-
-// 		// Convert the emoji_buff to a photo file to the destination
-// 		fs.writeFile(destination + "emoji.png", emoji_buffer, "binary", function() {});
-
-// 		// // For non zero angle, the emoji needs to be rotated
-// 		// if (angle != 0) {
-// 		// 	// Read the emoji and rotate it by the angle
-// 		// 	gm(destination + "emoji.png")
-// 		// 		.rotate
-// 		// }
-
-// 		// Insert the emoji onto the original_photo_buffer
-// 		gm(orig_photo_buff, )
-// 	}
-// });
-	
-// 	gm(work_directory + "/asset/user_photo/nick.png")
-// 		// Unncessary, but gives information about the photo including format, size, RGB data
-// 		.identify(function(err, data) {
-// 			if (err) console.log("Failed to read an image");
-// 			photo_info = data;
-// 			console.log("The format is : " + photo_info.format);
-// 		})
-
-// 		// Convert the emoji_buff to a photo file to the destination
-// 		fs.writeFile(destination + "emoji.png", buffer, "binary", function() {});
-		
-
-// 		// Draw the emoji on top of the original photo
-// 		.composite(emoji_buff)
-// 		.geometry('+541+679')
-
-// 		// Saving the result photo to the destination
-// 		.write(work_directory + '/asset/output_photo/' + photo_name, function(err) {
-// 			if (err) console.log("Fail to write an image to the output_photo directory");
+// function writing_buff_to_file(buff)
+// {
+// 	gm(buff, 'image.jpg')
+// 		.write(__dirname + '/new.jpg', function (err) {
+// 		  if (err) console.log(err);
+// 		  console.log('Created an image from a Buffer!');
 // 		});
 // }
+
+// function analyze_photo_format(orig_photo) {
+// 	gm(orig_photo)
+// 		// Get a image format
+// 		.identify(function(err, data) {
+// 			if (err) console.log("Failed to read an image");
+// 			orig_photo_format = data.format;
+
+// 			// Create a buffer for the original photo
+// 			// store_photo_buff(orig_photo, data.format);
+// 			process(index, orig_photo);
+// 		});
+// };
+
+// // analyze_photo_f ormat(orig_photo);
+
+// function multiple_faces_for_each()
+// {
+// 	arr.forEach(function(face_data, index) {
+// 		console.log("index : " + index);
+// 		var geom = "+" + face_data.face.x + "+" + face_data.face.y;
+// 		console.log(geom);
+
+// 		gm(__dirname + '/nick' + index + '.jpg')
+// 			.composite(__dirname + '/test.png')
+// 			.geometry(geom)
+// 			.write(__dirname + '/nick' + index + 1 + '.jpg', function(err) {
+// 				if (err) {
+// 					console.log("Fail to write an image to the output_photo directory");
+// 					console.log(err);
+// 				}
+// 			});
+// 	}
+// }
+
+// // // Make a buffer for a sample emoji
+// // gm(work_directory + 'test.png')
+// // 	.toBuffer('PNG' ,function (err, buffer) {
+// // 		if (err) return handle(err);
+// // 		emoji_buff = buffer;
+// // 	})
+
+// // gm(work_directory + '/test.png')
+// // 	.identify(function(err, data) {
+// // 		if (err) console.log("Failed to read an image");
+// // 		photo_info = data;
+// // 		console.log(data);
+// // 	});
+
+// // function InsertEmoji(analysis_result, orig_photo) {
+// // 	var orig_photo_format, orig_photo_buff;
+// // 	var people_arr = analysis_result.frames[0].people;
+// // 	var destination = work_directory + "/asset/output_photo/";
+
+// // 	function calculate_slope(left_eye, right_eye) {
+// // 		angle = Math.atan((right_eye.y - left_eye.y) / (right_eye.x - left_eye.x)) * 180 / Math.PI;
+// // 		return -1 * angle;
+// // 	};
+
+// // 	function store_photo_buff(orig_photo) {
+// // 		gm(orig_photo)
+// // 			// Create a buffer for the original photo
+// // 			.toBuffer('', function(err, buffer) {
+// // 				if (err) return handle(err);
+// // 				orig_photo_buff = buffer;
+// // 			});
+// // 	};
+
+// // 	function analyze_photo_format(orig_photo) {
+// // 		gm(orig_photo)
+// // 			// Get a image format
+// // 			.identify(function(err, data) {
+// // 				if (err) console.log("Failed to read an image");
+// // 				orig_photo_format = data.format;
+
+// // 				// Create a buffer for the original photo
+// // 				store_photo_buff(orig_photo);
+// // 			});
+// // 	};
+
+// // 	analyze_photo_format();
+	
+// // 	people_arr.forEach(function(face_data) {
+// // 		var left_eye = face_data.landmarks[18].leftEyeTopInnerLeft;
+// // 		var right_eye = face_data.landmarks[25].rightEyeTopInnerRight;
+// // 		var angle = calculate_slope(left_eye, right_eye);
+// // 		var emoji_buffer = face_data.buffer; 
+
+// // 		// Convert the emoji_buff to a photo file to the destination
+// // 		fs.writeFile(destination + "emoji.png", emoji_buffer, "binary", function() {});
+
+// // 		// // For non zero angle, the emoji needs to be rotated
+// // 		// if (angle != 0) {
+// // 		// 	// Read the emoji and rotate it by the angle
+// // 		// 	gm(destination + "emoji.png")
+// // 		// 		.rotate
+// // 		// }
+
+// // 		// Insert the emoji onto the original_photo_buffer
+// // 		gm(orig_photo_buff, )
+// // 	}
+// // });
+	
+// // 	gm(work_directory + "/asset/user_photo/nick.png")
+// // 		// Unncessary, but gives information about the photo including format, size, RGB data
+// // 		.identify(function(err, data) {
+// // 			if (err) console.log("Failed to read an image");
+// // 			photo_info = data;
+// // 			console.log("The format is : " + photo_info.format);
+// // 		})
+
+// // 		// Convert the emoji_buff to a photo file to the destination
+// // 		fs.writeFile(destination + "emoji.png", buffer, "binary", function() {});
+		
+
+// // 		// Draw the emoji on top of the original photo
+// // 		.composite(emoji_buff)
+// // 		.geometry('+541+679')
+
+// // 		// Saving the result photo to the destination
+// // 		.write(work_directory + '/asset/output_photo/' + photo_name, function(err) {
+// // 			if (err) console.log("Fail to write an image to the output_photo directory");
+// // 		});
+// // }
