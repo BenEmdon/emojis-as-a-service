@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json());
 
 function processAPIData(res, data, filename) {
-    if (!data.status_code) {
+    if (data.status_code === undefined) {
         console.log(data);
         res.send(data);
     }
