@@ -1,7 +1,8 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
-const api = require('./ApiRequest.js');
+const api = require('./ApiRequest');
+const actions = require('./utils/actions');
 
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 
@@ -49,7 +50,9 @@ app.post('/upload', function(req, res){
 		api(imageURL + file.name)
 		.then((imageData) => {
 			console.log(imageData);
-			res.send(imageData);
+      actions.getAllEmojis(imageData.frames[0], () => {
+        res.send(imageData);
+      })
 		})
 		.catch((error) => {
 			console.log(error);
