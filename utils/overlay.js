@@ -1,5 +1,5 @@
 const fs = require('fs');
-const gm = require('gm');
+const gm = require('gm').subClass({imageMagick: true});
 
 // Fake data to test (2 face_data currently)
 var data = {
@@ -377,7 +377,8 @@ function overlay(analysis_result, orig_photo_name, callback)
 	function delete_middlewares(index, photo_name)
 	{
         callback();
-		for (index -= 1; index >= 0; index--) {
+        index--;
+		for (; index >= 0; index--) {
 			// Delete middlewares in output_photo directory
 			if (index > 0) {
 				fs.unlinkSync(output_dir + '/' + index + '_' + photo_name, function(err) {
