@@ -366,8 +366,6 @@ var data = {
 
 function overlay(analysis_result, orig_photo_name, callback)
 {
-    console.log("TYPE:"+ typeof analysis_result);
-    console.log(JSON.stringify(analysis_result));
 	var arr = analysis_result.people;
     var work_dir = __dirname.substr(0, __dirname.lastIndexOf("/"));
 	var emoji_dir  = work_dir + '/uploads/emoji_dir';
