@@ -25,4 +25,10 @@ const request = (imagePath) => {
   });
 };
 
+const makeSecondRequest = (id) => {
+  return new Promise((resolve, reject) => {
+    const opetions
+  });
+}
+
 module.exports = request;

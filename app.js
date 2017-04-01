@@ -17,19 +17,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded());
-// app.post("/upload", upload.single('pic'), function(req, res) {
-//  console.log(req.file);
-//  api(imageURL + req.file.filename)
-//  .then((imageData) => {
-//    console.log(imageData);
-//    res.send(imageData);
-//  })
-//  .catch((error) => {
-//    console.log(error);
-//    res.send(error);
-//  });
-// });
+
 app.post('/upload', function (req, res) {
     // create an incoming form object
     var form = new formidable.IncomingForm();
