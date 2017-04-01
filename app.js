@@ -76,7 +76,7 @@ app.post('/upload', function (req, res) {
 });
 app.post('/slack', function (req, res) {
     console.log(req.body.image_url);
-    api(req.body.image_url).then((imageData) => {
+    api.post(req.body.image_url).then((imageData) => {
         /*actions.getAllEmojis(imageData.frames[0], () => {
         res.sendFilexfile.path);
       })*/
