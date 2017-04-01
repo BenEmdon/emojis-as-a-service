@@ -44,14 +44,17 @@ h5 {
 }
 
 .finImg {
-  width:100%;
-  position:absolute;
-  bottom:30%;
+  margin-top:200px;
 }
 
 .desc {
   text-align:center;
   margin-top:15px;
+}
+
+.finalImagePlacing{
+  margin:auto auto;
+  display:block;
 }
 
 .uploadContent{
