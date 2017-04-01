@@ -34,7 +34,7 @@ function processAPIData(res, data, filename) {
                 });
             });
         })
-    } else if (data.status_code === 2) {
+    } else if (data.status_code) {
       setTimeout(() => {
         api.get(data.id, (newData) => {
           processAPIData(res, newData)
