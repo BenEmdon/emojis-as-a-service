@@ -34,11 +34,11 @@ $(document).ready(function() {
         processData: false,
         contentType: false,
         success: function(data){
-            console.log('upload successful!\n' + data);
+            console.log('upload successful!\n' + JSON.stringify(data));
             $(".overlay").show();
             $(".uploadContent").hide();
             $("html").css("background-color", "#303030");
-            $("#outputtedImg").attr("src",data);
+            $("#outputtedImg").attr("src",JSON.stringify(data));
         },
         xhr: function() {
           // create an XMLHttpRequest
