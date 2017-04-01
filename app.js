@@ -16,20 +16,9 @@ const ROOT = "./public_html";
 app.use(function(req,res,next){
 	console.log(req.method + " request for " + req.url);
 	next();
+
 });
 
-app.post("/upload", upload.single('pic'), function(req, res) {
-	console.log(req.file);
-	api(imageURL + req.file.filename)
-	.then((imageData) => {
-		console.log(imageData);
-		res.send(imageData);
-	})
-	.catch((error) => {
-		console.log(error);
-		res.send(error);
-	});
-});
 // app.post("/upload", upload.single('pic'), function(req, res) {
 // 	console.log(req.file);
 // 	api(imageURL + req.file.filename)
