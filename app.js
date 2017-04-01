@@ -24,15 +24,14 @@ function process(res, data) {
             console.log(`EMOJI: ${imageData.frames[0]}`);
         })
     } else if (imageData.status_code === 2) {
-        setTimeout(() => {
-            process(res, data);
-        }, 
-        200);
+      setTimeout(() => {
+        api.get(data.id, (newData) => {
+          process(res, newData)
+        });
+      }, 200);
     } else {
         console.log(imageData);
     }
-    
-                
 } 
 
 app.post('/upload', function (req, res) {
@@ -50,9 +49,8 @@ app.post('/upload', function (req, res) {
             file.path = file.path + path.extname(file.name);
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
-            api(imageURL + file.name).then((imageData) => {
-
-                
+            api.post(imageURL + file.name).then((imageData) => {
+              process(res, data);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
