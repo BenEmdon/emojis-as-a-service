@@ -27,7 +27,7 @@ function processAPIData(res, data, filename) {
         console.log(`=> PRE-EMOJI: ${data.frames[0]}`);
         actions.getAllEmojis(data.frames[0], () => {
             console.log(`=> EMOJI: ${data.frames[0]}`);
-            overlay(data, filename, () => {
+            overlay(data.frames[0], filename, () => {
                 res.json({
                     'url': imageURL + filename
                 });
