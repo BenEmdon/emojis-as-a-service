@@ -19,20 +19,25 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json());
 
 function process(res, data) {
-    if (imageData.status_code === 4) {
-        actions.getAllEmojis(imageData.frames[0], () => {
-            console.log(`EMOJI: ${imageData.frames[0]}`);
+    if (!data.status_code) {
+        console.log(data);
+        res.send(data);
+    }
+    if (data.status_code === 4 && data.frames) {
+        actions.getAllEmojis(data.frames[0], () => {
+            console.log(`EMOJI: ${data.frames[0]}`);
         })
-    } else if (imageData.status_code === 2) {
+    } else if (data.status_code === 2) {
       setTimeout(() => {
         api.get(data.id, (newData) => {
           process(res, newData)
         });
-      }, 200);
+      }, 500);
     } else {
-        console.log(imageData);
+        console.log(data);
+        // this is purely a safety net
     }
-} 
+}
 
 app.post('/upload', function (req, res) {
     // create an incoming form object
@@ -49,7 +54,7 @@ app.post('/upload', function (req, res) {
             file.path = file.path + path.extname(file.name);
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
-            api.post(imageURL + file.name).then((imageData) => {
+            api.post(imageURL + file.name).then((data) => {
               process(res, data);
             }).catch((error) => {
                 console.log(error);
