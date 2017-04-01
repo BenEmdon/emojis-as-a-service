@@ -31,13 +31,14 @@ function mapObject(emotions){
 }
 
 function analyseEmotions(emotions){
+  if (emotions === undefined) return;
 
   if(emotions.length === 0){
     return "neutral";
   }else if (emotions.length === 1) {
     return emotions[0];
   }else{
-    const largest =  Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
+    const largest = Object.keys(emotions).reduce(function(a, b){ return emotions[a] > emotions[b] ? a : b });
 
     if(cheeky(emotions)){
       return "cheeky";
