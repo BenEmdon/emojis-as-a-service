@@ -86,10 +86,8 @@ app.post('/slack', function (req, res){
         .then((imageData) => {
           /*actions.getAllEmojis(imageData.frames[0], () => {
         res.sendFilexfile.path);
-      })*/
-        
-        res.json({url:'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg')};
-        })
+      })*/        res.json({url:'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg'});
+    })
         .catch((error) => {
           console.log(error);
           res.send(error);
