@@ -678,6 +678,19 @@ var data = {
     "length": 0
 }
 
+// ***** Testing with fake buffer *****
+// Create a fake buffer and put them into the fake data
+// gm(__dirname + '/test.png')
+// 	.toBuffer('PNG' ,function (err, buffer) {
+// 		if (err) return console.log("Error to make a fake buffer");
+// 		var arr = data.frames[0].people;
+// 		arr.forEach(function(face_data) {
+// 			face_data.buffer = buffer;
+// 		});
+
+// 		overlay(data, 'nick.jpg');
+// 	})
+
 function overlay(analysis_result, orig_photo_name)
 {
 	var arr = analysis_result.frames[0].people;
@@ -687,12 +700,16 @@ function overlay(analysis_result, orig_photo_name)
 
 	function delete_middlewares(index, photo_name)
 	{
-		for (index - 1; index >= 0; index--) {
+		for (index -= 1; index >= 0; index--) {
 			// Delete middlewares in output_photo directory
 			if (index > 0) {
-				fs.unlinkSync(output_dir + '/' + index + '_' + photo_name);				
+				fs.unlinkSync(output_dir + '/' + index + '_' + photo_name, function(err) {
+					if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
+				});
 			}
-			fs.unlinkSync(emoji_dir + '/' + index + '_' + photo_name);
+			fs.unlinkSync(emoji_dir + '/' + index + '_' + photo_name, function(err) {
+				if (err) console.log("Error to delete a middleware in output_photo for index : " + index);
+			});
 		}
 	}
 
@@ -706,6 +723,7 @@ function overlay(analysis_result, orig_photo_name)
 		var photo_dir = ((index == 0) ? input_dir + '/' : output_dir + '/' + index + '_');
 		var photo_path  = photo_dir + photo_name;
 		var output_path = output_dir;
+		var indexed_photo_name = index + '_' + photo_name;
 
 		// Index is now for the next index
 		index += 1;
@@ -730,11 +748,16 @@ function overlay(analysis_result, orig_photo_name)
 		// 		.rotate
 		// }
 
+		console.log(output_path);
+
 		gm(photo_path)
 			.composite(emoji_dir + '/' + indexed_photo_name)
 			.geometry(geom)
 			.write(output_path, function(err) {
-				if (err) console.log("Fail to write an image to the output_photo directory " + index);
+				if (err) {
+					console.log("Fail to write an image to the output_photo directory " + index);
+					console.log(err);
+				}
 				if (index < arr.length) {
 					emoji_buffer_to_emoji_photo(index, photo_name);
 				} else {
@@ -750,7 +773,10 @@ function overlay(analysis_result, orig_photo_name)
 
 		if (emoji_buffer) {
 			// Convert the emoji_buff to a photo file to the destination
-			fs.writeFile(emoji_path, emoji_buffer, "binary", insert_emoji(index, photo_name));
+			fs.writeFile(emoji_path, emoji_buffer, "binary", function(err) {
+				if (err) console.log("Failed to write buffer to a file with index : " + index);
+				if (!err) insert_emoji(index, photo_name)
+			});
 		} else {
 			console.log("Emoji buffer does not exist for index : " + index);
 		}
