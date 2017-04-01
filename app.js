@@ -16,6 +16,7 @@ const ROOT = "./public_html";
 app.use(function(req,res,next){
 	console.log(req.method + " request for " + req.url);
 	next();
+
 });
 
 // app.post("/upload", upload.single('pic'), function(req, res) {
