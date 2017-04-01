@@ -364,16 +364,17 @@ var data = {
 // 		overlay(data, 'nick.jpg');
 // 	})
 
-function overlay(analysis_result, orig_photo_name)
+function overlay(analysis_result, orig_photo_name, callback)
 {
 	var arr = analysis_result.frames[0].people;
     var work_dir = __dirname.substr(0, __dirname.lastIndexOf("/"));
-	var emoji_dir  = work_dir + '/asset/emoji_photo';
-	var input_dir  = work_dir + '/asset/input_photo';
-	var output_dir = work_dir + '/asset/output_photo';
+	var emoji_dir  = work_dir + '/uploads/emoji_dir';
+	var input_dir  = work_dir + '/uploads';
+	var output_dir = work_dir + '/uploads/output_photo';
 
 	function delete_middlewares(index, photo_name)
 	{
+        callback();
 		for (index -= 1; index >= 0; index--) {
 			// Delete middlewares in output_photo directory
 			if (index > 0) {
@@ -402,8 +403,9 @@ function overlay(analysis_result, orig_photo_name)
 		// Index is now for the next index
 		index += 1;
 
+        // Setting the output_path (For the last index, export the final photo to /uploads)
 		if (index === arr.length) {
-			output_path += ('/' + photo_name);
+            output_path = input_dir + '/' + photo_name;
 		} else {
 			output_path += ('/' + index + '_' + photo_name);
 		}
@@ -421,8 +423,6 @@ function overlay(analysis_result, orig_photo_name)
 		// 	gm(destination + "emoji.png")
 		// 		.rotate
 		// }
-
-		console.log(output_path);
 
 		gm(photo_path)
 			.composite(emoji_dir + '/' + indexed_photo_name)
@@ -442,7 +442,7 @@ function overlay(analysis_result, orig_photo_name)
 
 	function emoji_buffer_to_emoji_photo(index, photo_name)
 	{
-		var emoji_buffer = arr[index].buffer;
+		var emoji_buffer = arr[index].emojiBuffer;
 		var emoji_path   = emoji_dir + '/' + index + '_' + photo_name;
 
 		if (emoji_buffer) {
