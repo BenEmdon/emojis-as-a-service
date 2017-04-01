@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.json());
 
-function process(res, data) {
+function processAPIData(res, data) {
     if (!data.status_code) {
         console.log(data);
         res.send(data);
@@ -30,7 +30,7 @@ function process(res, data) {
     } else if (data.status_code === 2) {
       setTimeout(() => {
         api.get(data.id, (newData) => {
-          process(res, newData)
+          processAPIData(res, newData)
         });
       }, 500);
     } else {
@@ -55,7 +55,7 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             res.send(imageURL + file.name);
             api.post(imageURL + file.name).then((data) => {
-              process(res, data);
+              processAPIData(res, data);
             }).catch((error) => {
                 console.log(error);
                 res.send(error);
