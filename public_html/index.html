@@ -3,16 +3,116 @@
   <head>
     <meta charset="utf-8">
     <title>Emojis as a Service</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
+
+    <script>
+      $(document).ready(function() {
+
+        $('.upload-btn').on('click', function (){
+            $('#upload-input').click();
+            $('.progress-bar').text('0%');
+            $('.progress-bar').width('0%');
+        });
+
+        $('#upload-input').on('change', function(){
+          var files = $(this).get(0).files;
+
+          if (files.length > 0){
+            // create a FormData object which will be sent as the data payload in the
+            // AJAX request
+            var formData = new FormData();
+
+            // loop through all the selected files and add them to the formData object
+            for (var i = 0; i < files.length; i++) {
+              var file = files[i];
+
+              // add the files to formData object for the data payload
+              formData.append('uploads[]', file, file.name);
+            }
+
+            $.ajax({
+              url: '/upload',
+              type: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(data){
+                  console.log('upload successful!\n' + data);
+              },
+              xhr: function() {
+                // create an XMLHttpRequest
+                var xhr = new XMLHttpRequest();
+
+                // listen to the 'progress' event
+                xhr.upload.addEventListener('progress', function(evt) {
+
+                  if (evt.lengthComputable) {
+                    // calculate the percentage of upload completed
+                    var percentComplete = evt.loaded / evt.total;
+                    percentComplete = parseInt(percentComplete * 100);
+
+                    // update the Bootstrap progress bar with the new percentage
+                    $('.progress-bar').text(percentComplete + '%');
+                    $('.progress-bar').width(percentComplete + '%');
+
+                    // once the upload reaches 100%, set the progress bar text to done
+                    if (percentComplete === 100) {
+                      $('.progress-bar').html('Done');
+                    }
+
+                  }
+
+                }, false);
+
+                return xhr;
+              }
+            });
+
+          }
+        });
+      });
+    </script>
   </head>
   <body>
-    <h1> Emojis as a Service </h1>
+    <div class="header">
+      <img src="Images/logo.png" class="logo" />
+      <h1> Emojis as a Service </h1>
+    </div>
 
-    <div class="inputImage">
+    <!--<div class="inputImage">
       <form method="post" enctype="multipart/form-data" action="/upload">
-        <input type="file" name="pic" accept="image/*">
+        
+        <span class="fileContainer">
+          <p>Click to upload an image!</p>
+          <input type="file" name="pic" accept="image/*">
+        </span>
+        <br/>
         <input type="submit">
       </form>
+    </div>-->
+
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <span class="glyphicon glyphicon-cloud-upload"></span>
+              <h2>Upload your Image!</h2>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar"></div>
+              </div>
+              <button class="btn btn-lg upload-btn" type="button">Upload Image</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <input id="upload-input" type="file" name="uploads[]" multiple="multiple">
+
+
   </body>
 </html>
