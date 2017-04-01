@@ -85,14 +85,15 @@ app.post('/slack', function (req, res){
     api(req.body.image_url)
         .then((imageData) => {
           /*actions.getAllEmojis(imageData.frames[0], () => {
-        res.sendFile(file.path);
+        res.sendFilexfile.path);
       })*/
+        
+        res.json({url:'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg')};
         })
         .catch((error) => {
           console.log(error);
           res.send(error);
         });
-  res.send('great');
 });
 
 app.use('/images', express.static('./uploads'));
