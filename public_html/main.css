@@ -44,9 +44,9 @@ h5 {
 }
 
 .finImg {
-  margin:auto auto;
-  display:block;
   width:100%;
+  position:absolute;
+  bottom:30%;
 }
 
 .desc {
