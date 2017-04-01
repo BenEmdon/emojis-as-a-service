@@ -6,6 +6,8 @@ $(document).ready(function() {
       $('.progress-bar').width('0%');
   });
 
+  $(".overlay").hide();
+
   $('#upload-input').on('change', function(){
     var files = $(this).get(0).files;
 
@@ -25,6 +27,10 @@ $(document).ready(function() {
         contentType: false,
         success: function(data){
             console.log('upload successful!\n' + data.data);
+            $(".overlay").show();
+            $(".uploadContent").hide();
+            $("#outputtedImg").attr("src",data.data);
+
         },
         xhr: function() {
           // create an XMLHttpRequest
