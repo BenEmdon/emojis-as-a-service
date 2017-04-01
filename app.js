@@ -25,8 +25,9 @@ function processAPIData(res, data, filename) {
         res.send(data);
     }
     if (data.status_code === 4 && data.frames) {
+        console.log(`=> PRE-EMOJI: ${data.frames[0]}`);
         actions.getAllEmojis(data.frames[0], () => {
-            console.log(`EMOJI: ${data.frames[0]}`);
+            console.log(`=> EMOJI: ${data.frames[0]}`);
             overlay(data, filename, () => {
                 res.json({
                     'url': imageURL + filename
