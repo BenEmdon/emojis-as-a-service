@@ -7,7 +7,7 @@ const fs = require('fs');
 function getAllEmojis(data, callback) {
   const people = data["people"];
   async.each(people, function(person, cb) {
-    let emotion = getEmotion(person["emotions"]);
+    let emotion = person.hasOwnProperty("emotions") ? getEmotion(person["emotions"]) : "joy";
     
     console.log(emotion)
     scaleImage(emotions[emotion].url, person, cb);
@@ -23,7 +23,7 @@ function mapObject(emotions){
 
   for( emotion in emotions){
 
-     if(emotions[emotion] > 50){
+     if(emotions[emotion] > 60){
        valid_emotions[emotion] = emotions[emotion];
      }
   }
@@ -35,7 +35,7 @@ function analyseEmotions(emotions){
 
   if(_.size(emotions) == 0){
 
-    return "neutral";
+    return "joy";
   }else if (_.size(emotions) == 1) {
 
     for( emotion in emotions){

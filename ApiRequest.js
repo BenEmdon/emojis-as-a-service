@@ -15,7 +15,7 @@ const post = (imagePath) => {
     console.log(`Options: ${JSON.stringify(options, ' ', null)}`);
     rp(options)
     .then((response) => {
-      resolve(response)
+      resolve(JSON.parse(response))
     })
     .catch((error) => {
       console.log(`error = ${error}`);
@@ -36,7 +36,7 @@ const get = (id) => {
     };
     rp(options)
     .then((response) => {
-      resolve(response)
+      resolve(JSON.parse(response))
     })
     .catch((error) => {
       reject(error)

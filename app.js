@@ -4,6 +4,7 @@ const app = express();
 const api = require('./ApiRequest');
 const actions = require('./utils/actions');
 const bodyParser = require('body-parser');
+const requester = require('request')
 const overlay = require('./utils/overlay');
 const imageURL = 'https://emojis-as-a-service.herokuapp.com/images/'
 dotenv.config({
@@ -21,13 +22,10 @@ app.use(bodyParser.json());
 
 function processAPIData(res, data, filename) {
     if (data.status_code === undefined) {
-        console.log(data);
         res.send(data);
     } else if (data.status_code === 4 && data.frames) {
-        console.log(`=> PRE-EMOJI: ${data.frames[0]}`);
         actions.getAllEmojis(data.frames[0], () => {
-            console.log(`=> EMOJI: ${data.frames[0]}`);
-            overlay(data, filename, () => {
+            overlay(data.frames[0], filename, () => {
                 res.json({
                     'url': imageURL + filename
                 });
@@ -40,12 +38,10 @@ function processAPIData(res, data, filename) {
           processAPIData(res, newData, filename)
         })
         .catch((error) => {
-            console.log(`Error = ${error}`)
             res.send(error);
         });
       }, 500);
     } else {
-        console.log(data);
         // this is purely a safety net
     }
 }
@@ -66,9 +62,8 @@ app.post('/upload', function (req, res) {
             file.name = path.basename(file.path);
             
             api.post(imageURL + file.name).then((data) => {
-              processAPIData(res, data, file.name);
+                processAPIData(res, data, file.name);
             }).catch((error) => {
-                console.log(error);
                 res.send(error);
             });
         });
@@ -86,20 +81,34 @@ app.post('/upload', function (req, res) {
     form.parse(req);
 });
 app.post('/slack', function (req, res) {
-    console.log(req.body.image_url);
-    api.post(req.body.image_url).then((data) => {
-        /*actions.getAllEmojis(imageData.frames[0], () => {
-        res.sendFilexfile.path);
-      })*/
-        processAPIData(res, data, req.body.image_url);
-        // res.json({
-        //     url: 'http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg'
-        // });
-    }).catch((error) => {
-        console.log(error);
-        res.send(error);
+//   console.log(req.body.image_url);
+//    path.extname(req.body.image_url)
+ var name = Date.now() + path.extname(req.body.image_url); 
+    name = name.split('?')[0];
+    requester(req.body.image_url, {encoding: 'binary'}, function(error, response, body) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        fs.writeFile('./uploads/' + name, body, 'binary', function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+               api.post(imageURL+ name).then((data) => {
+//            console.log(name);
+                processAPIData(res, data, name);
+            }).catch((error) => {
+                console.log(error);
+                res.send(error);
+            });
+        });
+//        name = name.slice(2);
+     
     });
 });
+
+
 app.use('/images', express.static('./uploads'));
 app.use(express.static(ROOT)); //handle all static requests
 app.all("*", function (req, res) {
